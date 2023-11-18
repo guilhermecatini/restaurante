@@ -1,0 +1,32 @@
+//- nav.navbar.sticky-top.navbar-expand-lg.bg-body-tertiary
+nav.navbar.navbar-dark.sticky-top.navbar-expand-lg.bg-dark(data-ng-controller="controllermenu")
+    .container-fluid
+        a.navbar-brand(data-ng-href='/cat/nav/ui/classic/main') Catini Systems
+        button.navbar-toggler(type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation")
+            span.navbar-toggler-icon
+        #navbarSupportedContent.collapse.navbar-collapse
+            ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                li.nav-item
+                    a.nav-link.active(aria-current="page" data-ng-href="/cat/nav/ui/classic/main") Home
+                //- li.nav-item
+                //-     a.nav-link(href="#") Link
+                li.nav-item.dropdown
+                    a.nav-link.dropdown-toggle(role="button" data-bs-toggle="dropdown" aria-expanded="false") Modules
+                    ul.dropdown-menu
+                        li
+                            a.dropdown-item(href="/cat/nav/ui/classic/scripthelp_list") Examples Servicenow Scripts
+                        //- li
+                        //-     a.dropdown-item(href="#") Another action
+                        //- li
+                        //-     hr.dropdown-divider
+                        //- li
+                        //-     a.dropdown-item(href="#") Something else here
+                //- li.nav-item
+                //-     a.nav-link.disabled Disabled
+            form.d-flex(role="search")
+                ul.navbar-nav.me-auto.mb-2.mb-lg-0
+                    li.nav-item
+                        a.nav-link.active(aria-current="page" href="" data-ng-click="logout()") Logout
+                //- input.form-control.me-2(type="search" placeholder="Search" aria-label="Search")
+                //- button.btn.btn-outline-success(type="submit") Search
+script(src="/menu.js") 

@@ -18,7 +18,7 @@
                         <img style="width: 75%; border-radius: 5%;" class="img-fluid" data-ng-src="{{item.imagem}}" />
                     </div>
                     <div style="flex: 3;">
-                        <span style="color: #333;"><strong>Item {{item.sequencia_item}}</strong></span>
+                        <span style="color: #333;"><strong>Item {{item.sequencia}}</strong></span>
                         <br />
                         <span style="color: gray;">{{item.nome}}</span>
                         <br />
@@ -56,7 +56,7 @@
 
                 <div class="col-12">
                     <div class="text-center" style="margin-top: 10px;">
-                        <span data-ng-click="remover_item()">
+                        <span data-ng-click="remover_item(item)">
                             <i style="color: white; background-color: crimson; padding: 9px; border-radius: 50%;"
                                 class="fa-solid fa-trash"></i>
                         </span>
@@ -80,15 +80,19 @@
                         <br />
                         <strong>Entrega: </strong>
                         <br />
+                        <strong>Desconto: </strong>
+                        <br />
                         <strong>Total com a entrega: </strong>
                         <br />
                     </div>
                     <div style="flex: 1;" class="text-end">
-                        <small>R$ 350,00</small>
+                        <small>{{sacola.total_itens_formatado}}</small>
                         <br />
-                        <small>R$ 15,00</small>
+                        <small>{{sacola.entrega_formatado}}</small>
                         <br />
-                        <small>R$ 365,00</small>
+                        <small>{{sacola.desconto_formatado}}</small>
+                        <br />
+                        <small>{{sacola.total_formatado}}</small>
                         <br />
                     </div>
                 </div>

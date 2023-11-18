@@ -1,0 +1,31 @@
+extends layout
+
+block content
+    .container(style="margin-top: 15px;" data-ng-app="index") 
+        .row(data-ng-controller="indexcontroller")
+            form(action="/auth/basic" method="post") 
+                .col-xl-4.offset-xl-4 
+                    .card
+                        .card-body
+                            .mb-1.text-center
+                                p
+                                    strong Catini Systems
+                            .mb-1
+                                label(for="username") Username
+                                input#username.form-control(type="text" name="username" autofocus="true")
+                            .mb-1
+                                label(for="password") Password
+                                input#password.form-control(type="password" name="password")
+                            .mb-1.d-grid
+                                hr
+                                button.btn.btn-dark(type="submit") Login
+    script.
+        angular.module("index", [])
+            .controller("indexcontroller", indexcontroller);
+            indexcontroller.$inject = ["$scope", "$window"];
+
+            function indexcontroller($scope, $window) {
+                $scope.loginWithGoogle = function() {
+                    $window.location.href = "/auth/federated/google";
+                }
+            }

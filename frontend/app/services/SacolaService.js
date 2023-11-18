@@ -1,17 +1,15 @@
 app.service("SacolaService", function ($window, fakeDataService) {
 
-
     const ItemService = fakeDataService;
 
     //$window.localStorage.clear()
 
-
     this.sacola = {
         loja: "102030",
-        total_itens: 499.99,
-        entrega: 19.99,
-        desconto: 19.99,
-        total: 499.99,
+        total_itens: 0,
+        entrega: 0,
+        desconto: 0,
+        total: 0,
         itens: []
     }
 
@@ -21,6 +19,27 @@ app.service("SacolaService", function ($window, fakeDataService) {
             return JSON.parse(sacola);
         $window.localStorage.setItem("sacola", JSON.stringify(this.sacola));
         return this.sacola;
+    }
+
+    this.calcular_totais = function () {
+        const sacola = this.ler_sacola();
+        const itens = sacola.itens;
+        let entrega = 5;
+        let desconto = -10;
+        let total_itens = 0;
+        itens.forEach(item => {
+            total_itens += item.valor_total;
+        });
+        sacola.total_itens = total_itens;
+        sacola.total_itens_formatado = this.formatar_moeda(total_itens);
+        sacola.entrega = entrega; // pensar no calculo
+        sacola.entrega_formatado = this.formatar_moeda(entrega);
+        sacola.desconto = desconto; // pensar no desconto
+        sacola.desconto_formatado = this.formatar_moeda(desconto);
+        sacola.total = total_itens + entrega + desconto;
+        sacola.total_formatado = this.formatar_moeda(sacola.total);
+        console.log(sacola)
+        this.atualizar_sacola(sacola);
     }
 
     this.atualizar_sacola = function (sacola) {
@@ -46,9 +65,26 @@ app.service("SacolaService", function ($window, fakeDataService) {
         return valor.toLocaleString("pt-BR", { style: "currency", currency: "BRL" });
     }
 
+    this.recalcular_sequencia_item = function (sacola) {
+        sacola.itens.forEach((item, idx) => {
+            item.sequencia = idx + 1;
+        });
+        return sacola;
+    }
+
+    this.remover_item = function (sequencia_item) {
+        let sacola = this.ler_sacola();
+        let aux_itens = sacola.itens.filter(f => {
+            return f.sequencia != sequencia_item;
+        });
+        sacola.itens = aux_itens;
+        sacola = this.recalcular_sequencia_item(sacola);
+        this.atualizar_sacola(sacola);
+    }
+
     this.adicionar_item = function (id_item, quantidade, observacao) {
         let sacola = this.ler_sacola();
-        
+
         let item_selecionado = ItemService.buscar_por_id(id_item);
 
         let valor_unitario = item_selecionado.valor_unitario;
@@ -62,20 +98,6 @@ app.service("SacolaService", function ($window, fakeDataService) {
         item_selecionado.valor_unitario_formatado = valor_unitario_formatado;
         item_selecionado.valor_total = valor_total;
         item_selecionado.valor_total_formatado = valor_total_formatado;
-
-        
-        /*
-        item_selecionado = {
-            ...ItemService.buscar_por_id(id_item),
-            sequencia,
-            quantidade,
-            observacao,
-            valor_unitario_formatado: "R$ 999,00",
-            valor_total: 33.00,
-            valor_total_formatado: "R$ 32.967,00",
-        }
-        */
-
         sacola.itens.push(item_selecionado);
         this.atualizar_sacola(sacola);
     }

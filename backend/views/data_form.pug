@@ -1,0 +1,51 @@
+extends layout
+
+
+block content
+    include menu.pug
+    .container(style="margin-top: 15px;" data-ng-controller="controller")
+        form(method="POST" action=data.tablename)
+            .row
+                .col-12
+                    each button in data.ui_actions
+                        if button.type == "client"
+                            button.btn.btn-dark(type="button" onclick="fn_"+button.sys_id.replaceAll("-", "")+"();") #{button.name}
+                        if button.type == "server"
+                            button.btn.btn-dark(type="submit") #{button.name}
+            .row
+                .col-12
+                    form
+                        each field in data.table_fields
+                            .form-group
+                                if field.data_type == "char"
+                                    label(for=field.name) #{field.label}
+                                    input.form-control(type="text" value=data.result[field.name] name=field.name)
+                                else if field.data_type == "varchar"
+                                    label(for=field.name) #{field.label}
+                                    input.form-control(type="text" value=data.result[field.name] name=field.name)
+                                else if field.data_type == "datetime"
+                                    label(for=field.name) #{field.label}
+                                    input.form-control(type="datetime-local" value=data.result[field.name] name=field.name)
+                                else if field.data_type == "tinyint"
+                                    .form-check
+                                        if data.result[field.name] == 1
+                                            input.form-check-input(type="checkbox" id=field.name name=field.name checked)
+                                        else
+                                            input.form-check-input(type="checkbox" id=field.name name=field.name)
+                                        label.form-check-label(for=field.name) #{field.label}
+                .col-12.text-end
+                    hr
+                    button.btn.btn-dark(type="button" onclick="go_back()") Voltar
+                    button.btn.btn-dark(type="submit") Save
+
+    script
+        each button in data.ui_actions
+            if button.type == "client"
+                | function fn_#{button.sys_id.replaceAll("-", "")}() { #{button.script} }
+    script.
+        function go_back() {
+            const url = new URL(window.location.href);
+            const params = new URLSearchParams(url.search);
+            const last_page = params.get("last_page");
+            window.location.href = last_page;
+        }
