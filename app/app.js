@@ -8,19 +8,19 @@ app.config(function ($stateProvider, $urlRouterProvider) {
         .state({
             name: "loja",
             url: '/loja',
-            templateUrl: '/app/templates/loja.html',
+            templateUrl: './app/templates/loja.html',
             controller: "LojaController"
         })
         .state({
             name: "item",
             url: '/item/:id',
-            templateUrl: '/app/templates/item.html',
+            templateUrl: './app/templates/item.html',
             controller: "ItemController"
         })
         .state({
             name: "sacola",
             url: '/sacola',
-            templateUrl: '/app/templates/sacola.html',
+            templateUrl: './app/templates/sacola.html',
             controller: "SacolaController"
         })
 
