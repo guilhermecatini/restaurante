@@ -18,8 +18,6 @@ app.service('fakeDataService', function () {
         }
         return finded;
     }
-    
-    this.buscar_por_id = this.getItemById;
 
 
     this.getFakeData = function () {

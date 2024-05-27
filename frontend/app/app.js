@@ -3,6 +3,7 @@ var app = angular.module('catsys', ['ui.router', "ngAnimate"]);
 
 app.config(function ($stateProvider, $urlRouterProvider) {
 
+
     $stateProvider
         .state({
             name: "loja",

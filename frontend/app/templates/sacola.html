@@ -12,13 +12,13 @@
                 <hr class="hr-stylized-1" />
             </div>
 
-            <div class="col-12" data-ng-repeat="item in sacola.itens">
+            <div class="col-12" data-ng-repeat="item in sacola">
                 <div style="display: flex;">
                     <div style="flex: 1;" class="text-center d-flex justify-content-center align-items-center">
                         <img style="width: 75%; border-radius: 5%;" class="img-fluid" data-ng-src="{{item.imagem}}" />
                     </div>
                     <div style="flex: 3;">
-                        <span style="color: #333;"><strong>Item {{item.sequencia}}</strong></span>
+                        <span style="color: #333;"><strong>Item {{item.sequencia_item}}</strong></span>
                         <br />
                         <span style="color: gray;">{{item.nome}}</span>
                         <br />
@@ -56,7 +56,7 @@
 
                 <div class="col-12">
                     <div class="text-center" style="margin-top: 10px;">
-                        <span data-ng-click="remover_item(item)">
+                        <span data-ng-click="remover_item()">
                             <i style="color: white; background-color: crimson; padding: 9px; border-radius: 50%;"
                                 class="fa-solid fa-trash"></i>
                         </span>
@@ -80,19 +80,15 @@
                         <br />
                         <strong>Entrega: </strong>
                         <br />
-                        <strong>Desconto: </strong>
-                        <br />
                         <strong>Total com a entrega: </strong>
                         <br />
                     </div>
                     <div style="flex: 1;" class="text-end">
-                        <small>{{sacola.total_itens_formatado}}</small>
+                        <small>R$ 350,00</small>
                         <br />
-                        <small>{{sacola.entrega_formatado}}</small>
+                        <small>R$ 15,00</small>
                         <br />
-                        <small>{{sacola.desconto_formatado}}</small>
-                        <br />
-                        <small>{{sacola.total_formatado}}</small>
+                        <small>R$ 365,00</small>
                         <br />
                     </div>
                 </div>
