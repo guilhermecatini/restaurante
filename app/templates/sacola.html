@@ -1,0 +1,110 @@
+<div class="container-fluid">
+    <button data-ui-sref="loja" type="button" class="floating-button"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="row">
+        <div class="card">
+
+            <div data-ui-sref="loja" class="col-12 text-center" style="line-height: 16px;">
+                <img style="width: 45px; margin-bottom: 10px;" class="img-fluid" data-ng-src="{{info_loja.logotipo}}" />
+                <br />
+                <span style="color: #333;">{{info_loja.nome}}</span>
+                <br />
+                <span style="color: orangered; font-size: 8pt;">Adicionar mais itens</span>
+                <hr class="hr-stylized-1" />
+            </div>
+
+            <div class="col-12" data-ng-repeat="item in sacola">
+                <div style="display: flex;">
+                    <div style="flex: 1;" class="text-center d-flex justify-content-center align-items-center">
+                        <img style="width: 75%; border-radius: 5%;" class="img-fluid" data-ng-src="{{item.imagem}}" />
+                    </div>
+                    <div style="flex: 3;">
+                        <span style="color: #333;"><strong>Item {{item.sequencia_item}}</strong></span>
+                        <br />
+                        <span style="color: gray;">{{item.nome}}</span>
+                        <br />
+                        <span style="color: gray; font-size: 8pt;">{{item.descricao}}</span>
+                        <br />
+                        <div>
+                            <div style="display: flex;">
+                                <div style="flex: 2;">
+                                    <span style="color: #333; font-size: 9pt;">
+                                        <strong>Unitário: </strong> {{item.valor_unitario_formatado}}
+                                    </span>
+                                </div>
+                                <div style="flex: 1;">
+                                    <span style="color: #333; font-size: 9pt;">
+                                        <strong>Qtd.: </strong> {{item.quantidade}}
+                                    </span>
+                                </div>
+                                <div style="flex: 2;">
+                                    <span style="color: #333; font-size: 9pt;">
+                                        <strong>Total: </strong> {{item.valor_total_formatado}}
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="text-center" data-ng-if="item.observacao.length > 0">
+                            <i style="color: #333; font-size: 9pt;">
+                                <strong>Obs.: </strong>
+                            </i>
+                            <i style="color: #333; font-size: 9pt;">
+                                {{item.observacao}}
+                            </i>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="col-12">
+                    <div class="text-center" style="margin-top: 10px;">
+                        <span data-ng-click="remover_item()">
+                            <i style="color: white; background-color: crimson; padding: 9px; border-radius: 50%;"
+                                class="fa-solid fa-trash"></i>
+                        </span>
+                    </div>
+                </div>
+
+
+                <div class="col-12" data-ng-if="$index < sacola.length - 1">
+                    <hr />
+                </div>
+            </div>
+
+            <div class="col-12">
+                <hr class="hr-stylized-1" />
+            </div>
+
+            <div class="offset-2 col-8">
+                <div style="display: flex; font-size: 9pt; color: #333;">
+                    <div style="flex: 2;">
+                        <strong>Total dos itens: </strong>
+                        <br />
+                        <strong>Entrega: </strong>
+                        <br />
+                        <strong>Total com a entrega: </strong>
+                        <br />
+                    </div>
+                    <div style="flex: 1;" class="text-end">
+                        <small>R$ 350,00</small>
+                        <br />
+                        <small>R$ 15,00</small>
+                        <br />
+                        <small>R$ 365,00</small>
+                        <br />
+                    </div>
+                </div>
+                <br />
+            </div>
+
+            <div class="col-12">
+                <div class="d-grid gap-2 d-md-block">
+                    <button data-ng-click="finalizar_compra()" class="btn btn-primary" type="button">
+                        Finalizar Compra <!-- <i class="fa-solid fa-cart-shopping"></i> -->
+                    </button>
+                </div>
+            </div>
+
+            <div style="margin-bottom: 15px;"></div>
+
+        </div>
+    </div>
+</div>
