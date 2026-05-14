@@ -23,6 +23,11 @@ const requestLogger = require('./middlewares/requestLogger.middleware');
 
 const app = express();
 
+// Em produção atrás de reverse proxy/load balancer, isso habilita leitura segura de x-forwarded-*
+if (env.TENANT?.TRUST_PROXY) {
+  app.set('trust proxy', 1);
+}
+
 // --------------------------------------------------------------------------
 // Segurança — headers HTTP defensivos
 // --------------------------------------------------------------------------
@@ -46,7 +51,12 @@ app.use(
           'https://cdn.jsdelivr.net',
           'https://cdnjs.cloudflare.com',
         ],
-        fontSrc: ["'self'", 'data:', 'https://cdnjs.cloudflare.com'],
+        fontSrc: [
+          "'self'",
+          'data:',
+          'https://cdnjs.cloudflare.com',
+          'https://cdn.jsdelivr.net',
+        ],
         imgSrc: ["'self'", 'data:', 'https:'],
         connectSrc: [
           "'self'",

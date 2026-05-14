@@ -87,6 +87,18 @@ const env = {
 
   // Frontend URL para redirecionamento pós-OAuth
   FRONTEND_URL: optional('FRONTEND_URL', 'http://localhost:5173'),
+
+  // Multi-tenant (subdominio)
+  TENANT: {
+    BASE_DOMAINS: optional('TENANT_BASE_DOMAINS', '')
+      .split(',')
+      .map((d) => d.trim().toLowerCase())
+      .filter(Boolean),
+    REQUIRE_BASE_DOMAIN: optional('TENANT_REQUIRE_BASE_DOMAIN', 'false') === 'true',
+    ID_PREFIX: optional('TENANT_ID_PREFIX', 'restaurante').toLowerCase(),
+    ALLOW_QUERY_OVERRIDE: optional('TENANT_ALLOW_QUERY_OVERRIDE', 'true') === 'true',
+    TRUST_PROXY: optional('TENANT_TRUST_PROXY', 'false') === 'true',
+  },
 };
 
 module.exports = env;

@@ -1,0 +1,18 @@
+<article class="restaurant-card card-soft p-3 h-100" role="button" tabindex="0" ng-click="$ctrl.onOpen({ restaurant: $ctrl.restaurant })">
+  <div class="d-flex justify-content-between gap-2">
+    <div>
+      <h3 class="h6 mb-1">{{$ctrl.restaurant.trade_name}}</h3>
+      <p class="small text-muted mb-1">{{$ctrl.restaurant.city}} {{$ctrl.restaurant.neighborhood ? '- ' + $ctrl.restaurant.neighborhood : ''}}</p>
+      <small class="text-muted">
+        <i class="bi bi-clock"></i> {{$ctrl.restaurant.avg_preparation_time_min || '--'}} min
+      </small>
+    </div>
+    <span class="badge" ng-class="$ctrl.restaurant.is_open ? 'text-bg-success' : 'text-bg-secondary'">
+      {{$ctrl.restaurant.is_open ? 'Aberto' : 'Fechado'}}
+    </span>
+  </div>
+  <div class="mt-2 d-flex justify-content-between align-items-center">
+    <small class="text-muted">Entrega a partir de {{$ctrl.restaurant.base_delivery_fee | moneyBr}}</small>
+    <i class="bi bi-chevron-right"></i>
+  </div>
+</article>

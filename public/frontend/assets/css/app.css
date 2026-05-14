@@ -1,0 +1,242 @@
+:root {
+  --bg: #f6f7fb;
+  --surface: #ffffff;
+  --text: #222533;
+  --muted: #70748a;
+  --brand: #ed6a2f;
+  --brand-2: #ff914d;
+  --line: #eceef5;
+  --radius: 16px;
+  --shadow: 0 10px 30px rgba(19, 23, 42, 0.08);
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: "Segoe UI", "Poppins", sans-serif;
+  color: var(--text);
+  background: radial-gradient(1200px 500px at 20% -10%, #ffe7da 0, transparent 60%), var(--bg);
+}
+
+.top-header {
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  background: rgba(246, 247, 251, 0.94);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--line);
+}
+
+.brand {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  text-decoration: none;
+  color: var(--text);
+  font-weight: 800;
+  letter-spacing: 0.2px;
+  white-space: nowrap;
+}
+
+.header-logo {
+  width: 28px;
+  height: 28px;
+  border-radius: 8px;
+  object-fit: cover;
+}
+
+.tenant-badge {
+  margin-left: auto;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  padding: 4px 10px;
+  color: var(--muted);
+  font-size: 12px;
+  background: var(--surface);
+}
+
+.main-content { min-height: calc(100vh - 126px); }
+
+.mobile-nav {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: var(--surface);
+  border-top: 1px solid var(--line);
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  z-index: 1000;
+}
+
+.mobile-nav a {
+  padding: 10px 6px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 4px;
+  color: var(--muted);
+  text-decoration: none;
+  font-size: 12px;
+}
+
+.mobile-nav a.active { color: var(--brand); }
+
+.section-title {
+  font-size: 1.05rem;
+  font-weight: 700;
+}
+
+.card-soft {
+  background: var(--surface);
+  border: 1px solid var(--line);
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+}
+
+.hero-card {
+  border-radius: 24px;
+  background: linear-gradient(135deg, #141414, #2d2d2d);
+  color: #fff;
+}
+
+.hero-eyebrow {
+  font-size: 0.78rem;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: #ffbf9f;
+}
+
+.restaurant-header-card {
+  border: 1px solid var(--line);
+  border-radius: 18px;
+  background: linear-gradient(180deg, #fff, #fafbff);
+}
+
+.tenant-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 12px;
+  object-fit: cover;
+  border: 1px solid var(--line);
+}
+
+.quantity-stepper {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.quantity-stepper span {
+  min-width: 20px;
+  text-align: center;
+  font-weight: 600;
+}
+
+.summary-box {
+  border: 1px solid var(--line);
+  border-radius: 16px;
+  background: #fff;
+}
+
+.empty-state {
+  border: 1px dashed #cfd5e3;
+  border-radius: 16px;
+  padding: 24px;
+  text-align: center;
+  color: var(--muted);
+  background: #fff;
+}
+
+.auth-shell {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.auth-card {
+  background: var(--surface);
+  border-radius: 20px;
+  border: 1px solid var(--line);
+  box-shadow: var(--shadow);
+}
+
+.divider {
+  display: flex;
+  align-items: center;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+
+.divider::before,
+.divider::after {
+  content: "";
+  flex: 1;
+  border-bottom: 1px solid var(--line);
+}
+
+.divider span { padding: 0 12px; }
+
+.linear-loader {
+  position: fixed;
+  top: 58px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--brand), transparent);
+  animation: slide 1.2s linear infinite;
+  z-index: 1100;
+}
+
+@keyframes slide {
+  from { transform: translateX(-50%); }
+  to { transform: translateX(50%); }
+}
+
+.skeleton-line {
+  height: 10px;
+  border-radius: 999px;
+  background: linear-gradient(90deg, #eceef4 25%, #f6f7fb 37%, #eceef4 63%);
+  background-size: 400% 100%;
+  animation: shimmer 1.2s ease-in-out infinite;
+}
+
+@keyframes shimmer {
+  0% { background-position: 100% 0; }
+  100% { background-position: 0 0; }
+}
+
+.modal-backdrop-custom {
+  position: fixed;
+  inset: 0;
+  background: rgba(14, 16, 26, 0.58);
+  z-index: 1200;
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+}
+
+.customizer-sheet {
+  width: 100%;
+  max-height: 85vh;
+  overflow: auto;
+  background: #fff;
+  border-radius: 20px 20px 0 0;
+  box-shadow: 0 -10px 40px rgba(0, 0, 0, 0.22);
+}
+
+@media (min-width: 768px) {
+  .main-content { min-height: calc(100vh - 72px); }
+  .mobile-nav { display: none; }
+  .tenant-badge { font-size: 13px; }
+  .customizer-sheet {
+    max-width: 640px;
+    border-radius: 20px;
+    margin-bottom: 2rem;
+  }
+}

@@ -1,0 +1,26 @@
+<section class="hero mt-3">
+  <div class="hero-card p-3 p-md-4">
+    <p class="hero-eyebrow mb-2">Entrega em ate 45 min</p>
+    <h1 class="h4 mb-1">Seu pedido favorito, sem fila.</h1>
+    <p class="text-muted mb-0">Explore restaurantes perto de voce e monte seu pedido em poucos toques.</p>
+  </div>
+</section>
+
+<section class="mt-4">
+  <div class="d-flex justify-content-between align-items-center mb-2">
+    <h2 class="section-title mb-0">Destaques</h2>
+    <a ui-sref="app.restaurants" class="small text-decoration-none">Ver todos</a>
+  </div>
+
+  <div class="row g-3" ng-if="!vm.loading">
+    <div class="col-12 col-md-6" ng-repeat="restaurant in vm.featured track by restaurant.id">
+      <restaurant-card restaurant="restaurant" on-open="vm.openRestaurant(restaurant)"></restaurant-card>
+    </div>
+  </div>
+
+  <div class="row g-3" ng-if="vm.loading">
+    <div class="col-12 col-md-6" ng-repeat="i in [1,2,3,4] track by $index">
+      <skeleton-card></skeleton-card>
+    </div>
+  </div>
+</section>

@@ -12,7 +12,7 @@ async function listMine(req, res, next) {
       .where({ 'ru.user_id': req.user.id, 'ru.is_active': true })
       .whereNull('ru.deleted_at')
       .whereNull('r.deleted_at')
-      .select('r.id', 'r.slug', 'r.trade_name', 'r.logo_url', 'r.status', 'r.is_open', 'ru.role')
+      .select('r.id', 'r.slug', 'r.subdomain', 'r.trade_name', 'r.logo_url', 'r.status', 'r.is_open', 'ru.role')
       .orderBy('r.trade_name');
 
     return ok(res, { data: restaurants });
@@ -23,13 +23,18 @@ async function listMine(req, res, next) {
 
 async function create(req, res, next) {
   try {
-    const { slug, legal_name, trade_name, document_number, ...rest } = req.body;
+    const { slug, subdomain, legal_name, trade_name, document_number, ...rest } = req.body;
+    const normalizedSubdomain = (subdomain || slug).toLowerCase().trim();
 
     const existing = await db('restaurants').where({ slug }).whereNull('deleted_at').first();
     if (existing) throw new ConflictError('Slug já utilizado.');
 
+    const existingSubdomain = await db('restaurants').where({ subdomain: normalizedSubdomain }).whereNull('deleted_at').first();
+    if (existingSubdomain) throw new ConflictError('Subdomínio já utilizado.');
+
     const [restaurantId] = await db('restaurants').insert({
       slug,
+      subdomain: normalizedSubdomain,
       legal_name,
       trade_name,
       document_number: document_number || null,
@@ -44,7 +49,7 @@ async function create(req, res, next) {
       is_active: true,
     });
 
-    return created(res, { data: { id: restaurantId, slug }, message: 'Restaurante criado.' });
+    return created(res, { data: { id: restaurantId, slug, subdomain: normalizedSubdomain }, message: 'Restaurante criado.' });
   } catch (err) {
     return next(err);
   }

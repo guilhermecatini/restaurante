@@ -1,0 +1,37 @@
+<div class="app-shell">
+  <header class="top-header">
+    <div class="container-fluid py-2">
+      <div class="d-flex align-items-center gap-2">
+        <button class="btn btn-link p-0 text-decoration-none brand" ng-click="vm.goToStore()" aria-label="Inicio da loja">
+          <img
+            ng-if="vm.tenant().restaurant && vm.tenant().restaurant.logo_url"
+            ng-src="{{ vm.tenant().restaurant.logo_url }}"
+            alt="Logo da loja"
+            class="header-logo"
+          />
+          <span>{{ (vm.tenant().restaurant && vm.tenant().restaurant.trade_name) || 'Loja' }}</span>
+        </button>
+        <div class="tenant-badge" ng-if="vm.tenant().key">
+          <i class="bi bi-building"></i>
+          <span>{{ vm.tenant().key }}</span>
+        </div>
+        <button class="btn btn-link text-dark p-0" ui-sref="app.cart" aria-label="Carrinho">
+          <i class="bi bi-bag fs-4"></i>
+          <span class="badge rounded-pill text-bg-danger" ng-if="vm.cartCount()">{{ vm.cartCount() }}</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="main-content container-fluid pb-5">
+    <div ng-if="vm.isLoading()" class="linear-loader" aria-hidden="true"></div>
+    <div ui-view></div>
+  </main>
+
+  <nav class="mobile-nav d-md-none" aria-label="Navegacao principal">
+    <a ui-sref="app.storefront" ui-sref-active="active"><i class="bi bi-house"></i><span>Loja</span></a>
+    <a ui-sref="app.cart" ui-sref-active="active"><i class="bi bi-bag"></i><span>Carrinho</span></a>
+    <a ng-if="!vm.isAuthenticated()" ui-sref="auth.login" ui-sref-active="active"><i class="bi bi-person"></i><span>Entrar</span></a>
+    <a ng-if="vm.isAuthenticated()" href="" ng-click="vm.logout()"><i class="bi bi-box-arrow-right"></i><span>Sair</span></a>
+  </nav>
+</div>

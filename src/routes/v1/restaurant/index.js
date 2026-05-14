@@ -13,8 +13,10 @@
  */
 
 const { Router } = require('express');
+const { validate } = require('../../../middlewares/validate.middleware');
 const { authenticateJWT } = require('../../../middlewares/auth.v1.middleware');
 const { requireRestaurantAccess } = require('../../../middlewares/rbac.middleware');
+const { CreateRestaurantSchema } = require('../../../validations/v1/restaurant.validation');
 const {
   loadRestaurantContext,
   assertRestaurantMembership,
@@ -55,6 +57,6 @@ router.use('/:restaurantId/dashboard', assertRestaurantMembership, dashboardRout
 // Rota extra: lista restaurantes nos quais o usuário autenticado é membro
 const restaurantController = require('../../../controllers/v1/restaurant/restaurant.controller');
 router.get('/', restaurantController.listMine);
-router.post('/', restaurantController.create);
+router.post('/', validate(CreateRestaurantSchema), restaurantController.create);
 
 module.exports = router;

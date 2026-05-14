@@ -5,9 +5,133 @@
  */
 
 const { db } = require('../../config/database');
+const env = require('../../config/env');
 const { ok, paginated } = require('../../shared/response');
 const { parsePagination, applyPagination, buildPaginationMeta } = require('../../shared/pagination');
-const { NotFoundError } = require('../../errors/AppError');
+const { NotFoundError, BadRequestError } = require('../../errors/AppError');
+
+function normalizeTenant(value) {
+  return String(value || '')
+    .normalize('NFD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .toLowerCase()
+    .trim()
+    .replace(/\s+/g, '-')
+    .replace(/[^a-z0-9-]/g, '');
+}
+
+function extractTenantFromHost(req) {
+  const forwardedHost = req.headers['x-forwarded-host'];
+  const rawHost = (Array.isArray(forwardedHost) ? forwardedHost[0] : forwardedHost) || req.headers.host || '';
+  const hostWithoutPort = String(rawHost).split(',')[0].trim().split(':')[0];
+
+  if (!hostWithoutPort) return null;
+  if (hostWithoutPort === 'localhost') return null;
+  if (/^\d+\.\d+\.\d+\.\d+$/.test(hostWithoutPort)) return null;
+
+  const normalizedHost = hostWithoutPort.toLowerCase();
+  const configuredDomains = env.TENANT?.BASE_DOMAINS || [];
+
+  if (configuredDomains.length > 0) {
+    const matchedBase = configuredDomains.find((baseDomain) => {
+      return normalizedHost === baseDomain || normalizedHost.endsWith(`.${baseDomain}`);
+    });
+
+    if (!matchedBase) {
+      if (env.TENANT?.REQUIRE_BASE_DOMAIN) {
+        throw new BadRequestError('Host inválido para resolução de tenant.');
+      }
+      return null;
+    }
+
+    if (normalizedHost === matchedBase) {
+      return null;
+    }
+
+    const suffix = `.${matchedBase}`;
+    const subdomain = normalizedHost.slice(0, -suffix.length);
+    const firstLabel = subdomain.split('.').filter(Boolean)[0];
+    return normalizeTenant(firstLabel);
+  }
+
+  const segments = normalizedHost.split('.').filter(Boolean);
+  if (segments.length < 3) return null;
+  return normalizeTenant(segments[0]);
+}
+
+function extractRestaurantIdFromTenantKey(tenantKey) {
+  const prefix = normalizeTenant(env.TENANT?.ID_PREFIX || 'restaurante');
+  if (!tenantKey || !prefix) return null;
+
+  const escapedPrefix = prefix.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
+  const match = tenantKey.match(new RegExp(`^${escapedPrefix}(\\d+)$`));
+  if (!match) return null;
+
+  const parsedId = parseInt(match[1], 10);
+  return Number.isFinite(parsedId) && parsedId > 0 ? parsedId : null;
+}
+
+async function getCurrentTenant(req, res, next) {
+  try {
+    const queryTenant = env.TENANT?.ALLOW_QUERY_OVERRIDE ? normalizeTenant(req.query.tenant) : null;
+    const hostTenant = extractTenantFromHost(req);
+    const tenantKey = queryTenant || hostTenant;
+
+    if (!tenantKey) {
+      throw new BadRequestError('Tenant não identificado. Use subdomínio válido ou query ?tenant=... em ambiente local.');
+    }
+
+    const tenantId = extractRestaurantIdFromTenantKey(tenantKey);
+
+    const baseSelect = db('restaurants')
+      .where('status', 'active')
+      .whereNull('deleted_at')
+      .select(
+        'id',
+        'slug',
+        'subdomain',
+        'trade_name',
+        'description',
+        'logo_url',
+        'banner_url',
+        'is_open',
+        'avg_preparation_time_min',
+        'base_delivery_fee',
+        'minimum_order_value',
+        'accepts_pickup',
+        'accepts_delivery'
+      );
+
+    let restaurant;
+    if (tenantId) {
+      restaurant = await baseSelect.clone().where('id', tenantId).first();
+    }
+
+    if (!restaurant) {
+      restaurant = await baseSelect
+        .clone()
+        .andWhere(function () {
+          this.whereRaw('LOWER(subdomain) = ?', [tenantKey])
+            .orWhereRaw('LOWER(slug) = ?', [tenantKey])
+            .orWhereRaw("LOWER(REPLACE(trade_name, ' ', '-')) = ?", [tenantKey]);
+        })
+        .first();
+    }
+
+    if (!restaurant) {
+      throw new NotFoundError('Tenant não encontrado para o subdomínio informado.');
+    }
+
+    return ok(res, {
+      data: {
+        tenant_key: tenantKey,
+        restaurant,
+      },
+    });
+  } catch (err) {
+    return next(err);
+  }
+}
 
 async function listRestaurants(req, res, next) {
   try {
@@ -38,6 +162,7 @@ async function listRestaurants(req, res, next) {
         .select(
           'restaurants.id',
           'restaurants.slug',
+          'restaurants.subdomain',
           'restaurants.trade_name',
           'restaurants.logo_url',
           'restaurants.is_open',
@@ -80,6 +205,7 @@ async function searchRestaurants(req, res, next) {
         this.where('trade_name', 'like', term).orWhere('description', 'like', term);
       })
       .select('id', 'slug', 'trade_name', 'logo_url', 'is_open', 'avg_preparation_time_min')
+      .select('subdomain')
       .limit(perPage)
       .offset((page - 1) * perPage);
 
@@ -100,6 +226,7 @@ async function getRestaurant(req, res, next) {
       .select(
         'restaurants.id',
         'restaurants.slug',
+        'restaurants.subdomain',
         'restaurants.trade_name',
         'restaurants.description',
         'restaurants.logo_url',
@@ -253,6 +380,7 @@ async function getRestaurantReviews(req, res, next) {
 }
 
 module.exports = {
+  getCurrentTenant,
   listRestaurants,
   searchRestaurants,
   getRestaurant,

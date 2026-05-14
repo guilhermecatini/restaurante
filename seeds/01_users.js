@@ -375,6 +375,7 @@ exports.seed = async function (knex) {
     {
       id: 1,
       slug: 'demo-burgers',
+      subdomain: 'restaurante01',
       legal_name: 'Demo Burgers LTDA',
       trade_name: 'Demo Burgers',
       document_number: '12.345.678/0001-10',
@@ -396,6 +397,7 @@ exports.seed = async function (knex) {
     {
       id: 2,
       slug: 'sushi-prime',
+      subdomain: 'restaurante02',
       legal_name: 'Sushi Prime Alimentacao LTDA',
       trade_name: 'Sushi Prime',
       document_number: '22.333.444/0001-20',
@@ -417,6 +419,7 @@ exports.seed = async function (knex) {
     {
       id: 3,
       slug: 'pizza-estacao',
+      subdomain: 'restaurante03',
       legal_name: 'Pizzaria Estacao LTDA',
       trade_name: 'Pizza Estacao',
       document_number: '33.222.111/0001-30',

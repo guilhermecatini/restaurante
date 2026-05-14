@@ -9,12 +9,20 @@ const slugSchema = z
   .regex(/^[a-z0-9-]+$/, 'Slug deve conter apenas letras minúsculas, números e hífens.')
   .trim();
 
+const subdomainSchema = z
+  .string()
+  .min(2)
+  .max(120)
+  .regex(/^[a-z0-9-]+$/, 'Subdomínio deve conter apenas letras minúsculas, números e hífens.')
+  .trim();
+
 // --------------------------------------------------------------------------
 // Restaurante (perfil)
 // --------------------------------------------------------------------------
 
 const CreateRestaurantSchema = z.object({
   slug: slugSchema,
+  subdomain: subdomainSchema.optional(),
   legal_name: z.string().min(2).max(180).trim(),
   trade_name: z.string().min(2).max(180).trim(),
   document_number: z.string().max(30).trim().optional().nullable(),
@@ -240,4 +248,5 @@ module.exports = {
   UpdateTeamMemberRoleSchema,
   UpdateOrderStatusSchema,
   slugSchema,
+  subdomainSchema,
 };

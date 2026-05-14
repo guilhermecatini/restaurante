@@ -1,0 +1,12 @@
+<article class="card-soft p-3">
+  <div class="d-flex justify-content-between gap-2">
+    <div>
+      <h3 class="h6 mb-1">{{$ctrl.product.name}}</h3>
+      <p class="small text-muted mb-2">{{$ctrl.product.description}}</p>
+      <strong>{{$ctrl.product.base_price | moneyBr}}</strong>
+    </div>
+    <button class="btn btn-outline-primary btn-sm align-self-start" ng-click="$ctrl.onCustomize({ product: $ctrl.product })">
+      Escolher
+    </button>
+  </div>
+</article>

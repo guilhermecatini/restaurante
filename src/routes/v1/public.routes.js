@@ -22,6 +22,15 @@ const router = Router();
 router.use(optionalJWT);
 
 /**
+ * GET /api/v1/public/tenant/current
+ * Resolve o tenant atual com base no subdomínio/host.
+ *
+ * Query params opcionais (dev/local):
+ *   ?tenant=restaurante-do-joao
+ */
+router.get('/tenant/current', publicController.getCurrentTenant);
+
+/**
  * GET /api/v1/public/restaurants
  * Lista restaurantes ativos com suporte a filtros e paginação.
  *

@@ -1,0 +1,101 @@
+<section class="mt-3" ng-if="vm.notFound">
+  <div class="empty-state">
+    <i class="bi bi-exclamation-diamond fs-2"></i>
+    <p class="mt-2 mb-1">Tenant nao encontrado para este subdominio.</p>
+    <small class="text-muted">Verifique o endereco da loja e tente novamente.</small>
+  </div>
+</section>
+
+<section class="mt-3" ng-if="!vm.loading && vm.restaurant && !vm.notFound">
+  <div class="restaurant-header-card p-3 p-md-4 mb-3">
+    <div class="d-flex justify-content-between align-items-start gap-3">
+      <div class="d-flex gap-3 align-items-start">
+        <img
+          ng-if="vm.restaurant.logo_url"
+          ng-src="{{vm.restaurant.logo_url}}"
+          alt="Logo {{vm.restaurant.trade_name}}"
+          class="tenant-logo"
+        />
+        <div>
+          <h1 class="h4 mb-1">{{vm.restaurant.trade_name}}</h1>
+          <p class="text-muted mb-1">{{vm.restaurant.description || 'Cardapio digital oficial.'}}</p>
+          <small class="text-muted d-block">
+            <i class="bi bi-clock"></i> {{vm.restaurant.avg_preparation_time_min || '--'}} min
+            <span class="mx-2">•</span>
+            <i class="bi bi-star-fill text-warning"></i> {{vm.restaurant.rating.average || '--'}}
+          </small>
+          <small class="text-muted d-block mt-1">
+            <i class="bi bi-truck"></i> Entrega: {{vm.restaurant.base_delivery_fee | moneyBr}}
+            <span class="mx-2">•</span>
+            Minimo: {{vm.restaurant.minimum_order_value | moneyBr}}
+          </small>
+        </div>
+      </div>
+      <span class="badge" ng-class="vm.restaurant.is_open ? 'text-bg-success' : 'text-bg-secondary'">
+        {{ vm.restaurant.is_open ? 'Aberto' : 'Fechado' }}
+      </span>
+    </div>
+  </div>
+
+  <div class="accordion" id="menuAccordion">
+    <div class="accordion-item" ng-repeat="category in vm.menu track by category.id">
+      <h2 class="accordion-header">
+        <button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#cat_{{category.id}}">
+          {{category.name}}
+        </button>
+      </h2>
+      <div id="cat_{{category.id}}" class="accordion-collapse collapse show" data-bs-parent="#menuAccordion">
+        <div class="accordion-body">
+          <div class="d-grid gap-3">
+            <product-card ng-repeat="product in category.products track by product.id" product="product" on-customize="vm.openCustomizer(product)"></product-card>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section ng-if="vm.loading" class="mt-3">
+  <skeleton-card ng-repeat="i in [1,2,3] track by $index" class="d-block mb-3"></skeleton-card>
+</section>
+
+<div class="modal-backdrop-custom" ng-if="vm.modal.open">
+  <div class="customizer-sheet p-3">
+    <div class="d-flex justify-content-between align-items-start">
+      <h3 class="h5 mb-2">{{vm.modal.item.name}}</h3>
+      <button class="btn btn-sm btn-link" ng-click="vm.closeCustomizer()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <p class="small text-muted">{{vm.modal.item.description}}</p>
+
+    <div ng-if="vm.modal.item.addon_groups && vm.modal.item.addon_groups.length">
+      <p class="small fw-semibold mb-1">Adicionais</p>
+      <div class="form-check" ng-repeat="group in vm.modal.item.addon_groups track by group.id">
+        <p class="mb-1 small text-muted">{{group.name}}</p>
+        <div class="form-check" ng-repeat="addon in group.items track by addon.id">
+          <input
+            class="form-check-input"
+            type="checkbox"
+            id="addon_{{addon.id}}"
+            ng-checked="vm.modal.selectedAddons[addon.id]"
+            ng-click="vm.toggleAddon(addon)"
+          />
+          <label class="form-check-label" for="addon_{{addon.id}}">
+            {{addon.name}} (+{{addon.price_delta | moneyBr}})
+          </label>
+        </div>
+      </div>
+    </div>
+
+    <label class="form-label mt-2">Observacoes</label>
+    <textarea class="form-control" rows="3" maxlength="250" ng-model="vm.modal.notes" placeholder="Ex: sem cebola"></textarea>
+
+    <div class="d-flex justify-content-between align-items-center mt-3">
+      <quantity-stepper
+        value="vm.modal.quantity"
+        on-increase="vm.modal.quantity = vm.modal.quantity + 1"
+        on-decrease="vm.modal.quantity = vm.modal.quantity > 1 ? vm.modal.quantity - 1 : 1"
+      ></quantity-stepper>
+      <button class="btn btn-primary" ng-click="vm.addToCart()">Adicionar</button>
+    </div>
+  </div>
+</div>

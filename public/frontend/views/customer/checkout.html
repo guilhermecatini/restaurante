@@ -1,0 +1,69 @@
+<section class="mt-3">
+  <h1 class="section-title mb-3">Checkout</h1>
+
+  <div class="row g-3">
+    <div class="col-12 col-lg-8">
+      <div class="card-soft p-3 mb-3">
+        <h2 class="h6">Entrega</h2>
+        <div class="mb-2">
+          <label class="form-label">Tipo de pedido</label>
+          <select class="form-select" ng-model="vm.orderForm.order_type">
+            <option value="delivery">Entrega</option>
+            <option value="pickup">Retirada</option>
+          </select>
+        </div>
+
+        <div ng-if="vm.orderForm.order_type === 'delivery'">
+          <label class="form-label">Endereco</label>
+          <select class="form-select" ng-model="vm.selectedAddressId" ng-options="address.address_id as (address.label + ' - ' + address.street + ', ' + address.number) for address in vm.addresses">
+            <option value="">Selecione um endereco</option>
+          </select>
+        </div>
+      </div>
+
+      <div class="card-soft p-3 mb-3" ng-if="vm.orderForm.order_type === 'delivery'">
+        <h2 class="h6">Novo endereco</h2>
+        <div class="row g-2">
+          <div class="col-6"><input class="form-control" placeholder="CEP" ng-model="vm.newAddress.zip_code" /></div>
+          <div class="col-6"><input class="form-control" placeholder="Numero" ng-model="vm.newAddress.number" /></div>
+          <div class="col-12"><input class="form-control" placeholder="Rua" ng-model="vm.newAddress.street" /></div>
+          <div class="col-12"><input class="form-control" placeholder="Complemento" ng-model="vm.newAddress.complement" /></div>
+          <div class="col-6"><input class="form-control" placeholder="Bairro" ng-model="vm.newAddress.neighborhood" /></div>
+          <div class="col-6"><input class="form-control" placeholder="Cidade" ng-model="vm.newAddress.city" /></div>
+          <div class="col-6"><input class="form-control" placeholder="Estado" ng-model="vm.newAddress.state" /></div>
+          <div class="col-6"><input class="form-control" placeholder="Referencia" ng-model="vm.newAddress.reference_note" /></div>
+          <div class="col-12 d-grid"><button class="btn btn-outline-primary" ng-click="vm.createAddress()">Salvar endereco</button></div>
+        </div>
+      </div>
+
+      <div class="card-soft p-3">
+        <h2 class="h6">Pagamento</h2>
+        <select class="form-select mb-2" ng-model="vm.orderForm.payment_method">
+          <option value="pix">Pix</option>
+          <option value="credit_card">Cartao de credito</option>
+          <option value="debit_card">Cartao de debito</option>
+          <option value="cash">Dinheiro</option>
+          <option value="wallet">Carteira digital</option>
+        </select>
+        <textarea class="form-control" rows="3" placeholder="Observacoes do pedido" ng-model="vm.orderForm.customer_notes"></textarea>
+      </div>
+    </div>
+
+    <div class="col-12 col-lg-4">
+      <div class="summary-box p-3 sticky-lg-top" style="top: 1rem;">
+        <h2 class="h6">Resumo</h2>
+        <div class="d-flex justify-content-between"><span>Itens</span><strong>{{vm.subtotal() | moneyBr}}</strong></div>
+
+        <div class="input-group mt-2 mb-2">
+          <input type="text" class="form-control" placeholder="Cupom" ng-model="vm.coupon" />
+          <button class="btn btn-outline-secondary" ng-click="vm.applyCoupon()">Aplicar</button>
+        </div>
+        <small class="text-success" ng-if="vm.couponResult && vm.couponResult.valid">Cupom aplicado</small>
+
+        <button class="btn btn-primary w-100 mt-3" ng-click="vm.placeOrder()" ng-disabled="vm.placing">
+          {{ vm.placing ? 'Finalizando...' : 'Finalizar pedido' }}
+        </button>
+      </div>
+    </div>
+  </div>
+</section>

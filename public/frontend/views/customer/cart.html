@@ -1,0 +1,41 @@
+<section class="mt-3">
+  <div class="d-flex justify-content-between align-items-center mb-3">
+    <h1 class="section-title mb-0">Carrinho</h1>
+    <button class="btn btn-sm btn-link text-danger" ng-click="vm.clear()" ng-if="vm.cart.items.length">Esvaziar</button>
+  </div>
+
+  <div class="empty-state" ng-if="!vm.cart.items.length">
+    <i class="bi bi-bag-x fs-1"></i>
+    <p class="mb-1">Seu carrinho esta vazio.</p>
+    <a ui-sref="app.storefront" class="btn btn-primary btn-sm">Ver cardapio</a>
+  </div>
+
+  <div ng-if="vm.cart.items.length" class="d-grid gap-3">
+    <div class="card-soft p-3" ng-repeat="item in vm.cart.items track by item.local_id">
+      <div class="d-flex justify-content-between gap-2">
+        <div>
+          <h3 class="h6 mb-1">{{item.product_name}}</h3>
+          <p class="small text-muted mb-1" ng-if="item.customer_notes">{{item.customer_notes}}</p>
+          <small class="text-muted">{{item.unit_price | moneyBr}} cada</small>
+        </div>
+        <button class="btn btn-sm btn-link text-danger" ng-click="vm.remove(item)" aria-label="Remover item">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+
+      <div class="d-flex justify-content-between align-items-center mt-2">
+        <quantity-stepper
+          value="item.quantity"
+          on-increase="vm.increase(item)"
+          on-decrease="vm.decrease(item)"
+        ></quantity-stepper>
+        <strong>{{(item.unit_price * item.quantity) | moneyBr}}</strong>
+      </div>
+    </div>
+
+    <div class="summary-box p-3">
+      <div class="d-flex justify-content-between mb-2"><span>Subtotal</span><strong>{{vm.subtotal() | moneyBr}}</strong></div>
+      <button class="btn btn-primary w-100" ng-click="vm.goCheckout()">Continuar para checkout</button>
+    </div>
+  </div>
+</section>

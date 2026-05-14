@@ -2,7 +2,7 @@
 
 const { db } = require('../../../config/database');
 const { ok, noContent } = require('../../../shared/response');
-const { requireRestaurantOwner } = require('../../../middlewares/rbac.middleware');
+const { ConflictError } = require('../../../errors/AppError');
 
 async function get(req, res) {
   return ok(res, { data: req.restaurant });
@@ -10,6 +10,18 @@ async function get(req, res) {
 
 async function update(req, res, next) {
   try {
+    if (req.body.subdomain) {
+      const normalizedSubdomain = String(req.body.subdomain).toLowerCase().trim();
+      const existing = await db('restaurants')
+        .where({ subdomain: normalizedSubdomain })
+        .whereNot({ id: req.restaurant.id })
+        .whereNull('deleted_at')
+        .first();
+
+      if (existing) throw new ConflictError('Subdomínio já utilizado.');
+      req.body.subdomain = normalizedSubdomain;
+    }
+
     await db('restaurants')
       .where({ id: req.restaurant.id })
       .update(req.body);
