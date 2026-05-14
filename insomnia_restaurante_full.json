@@ -193,6 +193,7 @@
         "mimeType": "application/json",
         "text": "{\n  \"email\": \"{{ _.legacy_email }}\",\n  \"password\": \"{{ _.legacy_password }}\"\n}"
       },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.accessToken || data.access_token || body?.accessToken || body?.access_token;\nconst refreshToken = data.refreshToken || data.refresh_token || body?.refreshToken || body?.refresh_token;\n\nif (accessToken) insomnia.environment.set('legacy_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('legacy_refresh_token', refreshToken);",
       "parameters": [],
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -301,6 +302,7 @@
         "mimeType": "application/json",
         "text": "{\n  \"refreshToken\": \"{{ _.legacy_refresh_token }}\"\n}"
       },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.accessToken || data.access_token || body?.accessToken || body?.access_token;\nconst refreshToken = data.refreshToken || data.refresh_token || body?.refreshToken || body?.refresh_token;\n\nif (accessToken) insomnia.environment.set('legacy_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('legacy_refresh_token', refreshToken);",
       "parameters": [],
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -663,6 +665,7 @@
         "mimeType": "application/json",
         "text": "{\n  \"email\": \"{{ _.v1_customer_email }}\",\n  \"password\": \"{{ _.v1_customer_password }}\"\n}"
       },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.access_token || data.accessToken || body?.access_token || body?.accessToken;\nconst refreshToken = data.refresh_token || data.refreshToken || body?.refresh_token || body?.refreshToken;\n\nif (accessToken) insomnia.environment.set('v1_customer_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('v1_customer_refresh_token', refreshToken);",
       "parameters": [],
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -691,6 +694,7 @@
         "mimeType": "application/json",
         "text": "{\n  \"email\": \"{{ _.v1_staff_email }}\",\n  \"password\": \"{{ _.v1_staff_password }}\"\n}"
       },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.access_token || data.accessToken || body?.access_token || body?.accessToken;\nconst refreshToken = data.refresh_token || data.refreshToken || body?.refresh_token || body?.refreshToken;\n\nif (accessToken) insomnia.environment.set('v1_staff_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('v1_staff_refresh_token', refreshToken);",
       "parameters": [],
       "settingStoreCookies": true,
       "settingSendCookies": true,
@@ -719,6 +723,36 @@
         "mimeType": "application/json",
         "text": "{\n  \"refresh_token\": \"{{ _.v1_customer_refresh_token }}\"\n}"
       },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.access_token || data.accessToken || body?.access_token || body?.accessToken;\nconst refreshToken = data.refresh_token || data.refreshToken || body?.refresh_token || body?.refreshToken;\n\nif (accessToken) insomnia.environment.set('v1_customer_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('v1_customer_refresh_token', refreshToken);",
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0034b",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/refresh (staff)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/refresh",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refresh_token\": \"{{ _.v1_staff_refresh_token }}\"\n}"
+      },
+      "afterResponseScript": "const body = insomnia.response.json();\nconst data = body?.data || body || {};\nconst accessToken = data.access_token || data.accessToken || body?.access_token || body?.accessToken;\nconst refreshToken = data.refresh_token || data.refreshToken || body?.refresh_token || body?.refreshToken;\n\nif (accessToken) insomnia.environment.set('v1_staff_access_token', accessToken);\nif (refreshToken) insomnia.environment.set('v1_staff_refresh_token', refreshToken);",
       "parameters": [],
       "settingStoreCookies": true,
       "settingSendCookies": true,

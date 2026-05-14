@@ -37,6 +37,21 @@ function isPlatformAdmin(userType) {
   return userType === 'platform_admin' || userType === 'super_admin';
 }
 
+function normalizeRole(role) {
+  const value = String(role || '').trim();
+  const map = {
+    owner: 'restaurant_owner',
+    manager: 'restaurant_manager',
+    attendant: 'restaurant_operator',
+    kitchen: 'restaurant_operator',
+    courier: 'restaurant_operator',
+    finance: 'restaurant_operator',
+    super_admin: 'platform_admin',
+  };
+
+  return map[value] || value;
+}
+
 /**
  * Retorna middleware que exige exatamente um dos roles listados.
  * super_admin sempre passa.
@@ -51,6 +66,7 @@ function requireAnyRole(roles) {
 
     const userType = getUserType(req);
     const userRole = req.restaurantRole || userType;
+    const normalizedAllowedRoles = roles.map(normalizeRole);
 
     // Admin da plataforma sempre autorizado
     if (isPlatformAdmin(userType)) return next();
@@ -58,16 +74,17 @@ function requireAnyRole(roles) {
     // Novo schema: role de staff vem em restaurant_users.role
     // quando assertRestaurantMembership já rodou.
     if (userType === 'restaurant_staff' && req.restaurantRole) {
-      if (roles.includes(req.restaurantRole)) return next();
+      const normalizedRestaurantRole = normalizeRole(req.restaurantRole);
+      if (normalizedAllowedRoles.includes(normalizedRestaurantRole)) return next();
     }
 
     // Novo schema: qualquer staff autenticado pode acessar rotas de staff
-    if (userType === 'restaurant_staff' && roles.includes('restaurant_staff')) return next();
+    if (userType === 'restaurant_staff' && normalizedAllowedRoles.includes('restaurant_staff')) return next();
 
     // Novo schema: admin da plataforma
-    if (roles.includes('platform_admin') && userType === 'platform_admin') return next();
+    if (normalizedAllowedRoles.includes('platform_admin') && userType === 'platform_admin') return next();
 
-    if (roles.includes(userRole)) return next();
+    if (normalizedAllowedRoles.includes(normalizeRole(userRole))) return next();
 
     return next(
       new ForbiddenError(
@@ -99,9 +116,9 @@ function requireMinRole(minRole) {
     const userType = getUserType(req);
     if (isPlatformAdmin(userType)) return next();
 
-    const effectiveRole = req.restaurantRole || userType;
+    const effectiveRole = normalizeRole(req.restaurantRole || userType);
     const userLevel = ROLE_HIERARCHY[effectiveRole] ?? -1;
-    const minLevel = ROLE_HIERARCHY[minRole] ?? 0;
+    const minLevel = ROLE_HIERARCHY[normalizeRole(minRole)] ?? 0;
 
     if (userLevel >= minLevel) return next();
 
