@@ -111,9 +111,10 @@ async function login(req, res, next) {
       .select('password_hash')
       .first();
 
-    if (!authProvider?.password_hash) throw new UnauthorizedError('Credenciais inválidas.');
+    const providerPasswordHash = authProvider?.passwordHash || authProvider?.password_hash;
+    if (!providerPasswordHash) throw new UnauthorizedError('Credenciais inválidas.');
 
-    const match = await bcrypt.compare(password, authProvider.password_hash);
+    const match = await bcrypt.compare(password, providerPasswordHash);
     if (!match) throw new UnauthorizedError('Credenciais inválidas.');
 
     const accessToken = signAccessToken(user.id);
@@ -136,7 +137,12 @@ async function login(req, res, next) {
       data: {
         access_token: accessToken,
         refresh_token: refreshToken,
-        user: { id: user.id, first_name: user.first_name, email: user.email, user_type: user.user_type },
+        user: {
+          id: user.id,
+          first_name: user.first_name || user.firstName,
+          email: user.email,
+          user_type: user.user_type || user.userType,
+        },
       },
     });
   } catch (err) {
@@ -275,9 +281,10 @@ async function changePassword(req, res, next) {
       .whereNull('deleted_at')
       .first();
 
-    if (!authProvider?.password_hash) throw new BadRequestError('Conta não possui senha local.');
+    const providerPasswordHash = authProvider?.passwordHash || authProvider?.password_hash;
+    if (!providerPasswordHash) throw new BadRequestError('Conta não possui senha local.');
 
-    const match = await bcrypt.compare(current_password, authProvider.password_hash);
+    const match = await bcrypt.compare(current_password, providerPasswordHash);
     if (!match) throw new UnauthorizedError('Senha atual incorreta.');
 
     const password_hash = await bcrypt.hash(new_password, BCRYPT_ROUNDS);

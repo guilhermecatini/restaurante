@@ -202,7 +202,26 @@ async function get(req, res, next) {
 async function track(req, res, next) {
   try {
     const { order_number, status, placed_at, confirmed_at, prepared_at, dispatched_at, delivered_at, canceled_at } = req.order;
-    return ok(res, { data: { order_number, status, placed_at, confirmed_at, prepared_at, dispatched_at, delivered_at, canceled_at } });
+    return ok(res, {
+      data: {
+        orderNumber: order_number,
+        status,
+        placedAt: placed_at,
+        confirmedAt: confirmed_at,
+        preparedAt: prepared_at,
+        dispatchedAt: dispatched_at,
+        deliveredAt: delivered_at,
+        canceledAt: canceled_at,
+        // Compatibilidade retroativa
+        order_number,
+        placed_at,
+        confirmed_at,
+        prepared_at,
+        dispatched_at,
+        delivered_at,
+        canceled_at,
+      },
+    });
   } catch (err) {
     return next(err);
   }

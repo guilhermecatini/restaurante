@@ -141,6 +141,8 @@ async function getRestaurant(req, res, next) {
       data: {
         ...restaurant,
         address,
+        operatingHours: hours,
+        // Compatibilidade retroativa
         operating_hours: hours,
         rating: {
           average: avgRating?.avg_rating ? parseFloat(avgRating.avg_rating).toFixed(1) : null,

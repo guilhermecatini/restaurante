@@ -34,6 +34,11 @@ async function summary(req, res, next) {
 
     return ok(res, {
       data: {
+        ordersToday: Number(ordersToday?.total) || 0,
+        pendingOrders: Number(pendingOrders?.total) || 0,
+        revenueToday: parseFloat(revenue?.total || 0).toFixed(2),
+        isOpen: req.restaurant.is_open,
+        // Compatibilidade retroativa
         orders_today: Number(ordersToday?.total) || 0,
         pending_orders: Number(pendingOrders?.total) || 0,
         revenue_today: parseFloat(revenue?.total || 0).toFixed(2),
@@ -81,6 +86,9 @@ async function revenue(req, res, next) {
 
     return ok(res, {
       data: {
+        totalRevenue: parseFloat(result?.total || 0).toFixed(2),
+        totalOrders: Number(result?.orders) || 0,
+        // Compatibilidade retroativa
         total_revenue: parseFloat(result?.total || 0).toFixed(2),
         total_orders: Number(result?.orders) || 0,
         period: { from: fromDate, to: toDate },

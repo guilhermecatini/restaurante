@@ -25,7 +25,14 @@ async function toggleStatus(req, res, next) {
   try {
     const newStatus = !req.restaurant.is_open;
     await db('restaurants').where({ id: req.restaurant.id }).update({ is_open: newStatus });
-    return ok(res, { data: { is_open: newStatus }, message: newStatus ? 'Restaurante aberto.' : 'Restaurante fechado.' });
+    return ok(res, {
+      data: {
+        isOpen: newStatus,
+        // Compatibilidade retroativa
+        is_open: newStatus,
+      },
+      message: newStatus ? 'Restaurante aberto.' : 'Restaurante fechado.',
+    });
   } catch (err) {
     return next(err);
   }

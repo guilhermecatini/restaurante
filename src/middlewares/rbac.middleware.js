@@ -27,6 +27,16 @@ const ROLE_HIERARCHY = {
   super_admin: 99,
 };
 
+function getUserType(req) {
+  return req?.user?.user_type || req?.user?.userType || null;
+}
+
+function isPlatformAdmin(userType) {
+  // Novo schema: platform_admin
+  // Legado: super_admin
+  return userType === 'platform_admin' || userType === 'super_admin';
+}
+
 /**
  * Retorna middleware que exige exatamente um dos roles listados.
  * super_admin sempre passa.
@@ -39,10 +49,23 @@ function requireAnyRole(roles) {
       return next(new ForbiddenError());
     }
 
-    const userRole = req.user.user_type;
+    const userType = getUserType(req);
+    const userRole = req.restaurantRole || userType;
 
-    // super_admin sempre autorizado
-    if (userRole === 'super_admin') return next();
+    // Admin da plataforma sempre autorizado
+    if (isPlatformAdmin(userType)) return next();
+
+    // Novo schema: role de staff vem em restaurant_users.role
+    // quando assertRestaurantMembership já rodou.
+    if (userType === 'restaurant_staff' && req.restaurantRole) {
+      if (roles.includes(req.restaurantRole)) return next();
+    }
+
+    // Novo schema: qualquer staff autenticado pode acessar rotas de staff
+    if (userType === 'restaurant_staff' && roles.includes('restaurant_staff')) return next();
+
+    // Novo schema: admin da plataforma
+    if (roles.includes('platform_admin') && userType === 'platform_admin') return next();
 
     if (roles.includes(userRole)) return next();
 
@@ -73,7 +96,11 @@ function requireMinRole(minRole) {
   return (req, _res, next) => {
     if (!req.user) return next(new ForbiddenError());
 
-    const userLevel = ROLE_HIERARCHY[req.user.user_type] ?? -1;
+    const userType = getUserType(req);
+    if (isPlatformAdmin(userType)) return next();
+
+    const effectiveRole = req.restaurantRole || userType;
+    const userLevel = ROLE_HIERARCHY[effectiveRole] ?? -1;
     const minLevel = ROLE_HIERARCHY[minRole] ?? 0;
 
     if (userLevel >= minLevel) return next();
@@ -89,6 +116,8 @@ function requireMinRole(minRole) {
  * Atalho para proteger qualquer rota do painel do restaurante.
  */
 const requireRestaurantAccess = requireAnyRole([
+  'restaurant_staff',
+  'platform_admin',
   'restaurant_owner',
   'restaurant_manager',
   'restaurant_operator',
@@ -99,6 +128,7 @@ const requireRestaurantAccess = requireAnyRole([
  * Apenas owner ou manager do restaurante.
  */
 const requireRestaurantManager = requireAnyRole([
+  'platform_admin',
   'restaurant_owner',
   'restaurant_manager',
   'super_admin',
@@ -107,7 +137,7 @@ const requireRestaurantManager = requireAnyRole([
 /**
  * Apenas owner do restaurante.
  */
-const requireRestaurantOwner = requireAnyRole(['restaurant_owner', 'super_admin']);
+const requireRestaurantOwner = requireAnyRole(['restaurant_owner', 'platform_admin', 'super_admin']);
 
 /**
  * Apenas cliente final.

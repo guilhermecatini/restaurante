@@ -45,7 +45,10 @@ async function invite(req, res, next) {
       is_active: true,
     });
 
-    return created(res, { data: { id }, message: `${user.first_name} adicionado(a) à equipe como ${role}.` });
+    return created(res, {
+      data: { id },
+      message: `${user.first_name || user.firstName} adicionado(a) à equipe como ${role}.`,
+    });
   } catch (err) {
     return next(err);
   }

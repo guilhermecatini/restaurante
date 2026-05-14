@@ -52,6 +52,11 @@ async function authenticateJWT(req, _res, next) {
       return next(new UnauthorizedError('Usuário não encontrado ou conta inativa.'));
     }
 
+    // Compatibilidade: alguns módulos ainda leem req.user em snake_case
+    user.first_name = user.first_name || user.firstName;
+    user.last_name = user.last_name || user.lastName;
+    user.user_type = user.user_type || user.userType;
+
     req.user = user;
     return next();
   } catch (err) {
@@ -82,6 +87,11 @@ async function optionalJWT(req, _res, next) {
       .select('id', 'first_name', 'last_name', 'email', 'user_type', 'status')
       .first();
 
+    if (user) {
+      user.first_name = user.first_name || user.firstName;
+      user.last_name = user.last_name || user.lastName;
+      user.user_type = user.user_type || user.userType;
+    }
     req.user = user || null;
   } catch {
     req.user = null;

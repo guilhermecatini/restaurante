@@ -124,7 +124,14 @@ async function addItem(req, res, next) {
       if (validAddons.length) await db('cart_item_addons').insert(validAddons);
     }
 
-    return created(res, { data: { cart_item_id: cartItemId }, message: 'Item adicionado ao carrinho.' });
+    return created(res, {
+      data: {
+        cartItemId,
+        // Compatibilidade retroativa
+        cart_item_id: cartItemId,
+      },
+      message: 'Item adicionado ao carrinho.',
+    });
   } catch (err) {
     return next(err);
   }

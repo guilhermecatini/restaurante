@@ -54,7 +54,15 @@ async function create(req, res, next) {
       reference_note: reference_note || null,
     });
 
-    return created(res, { data: { id: userAddressId, address_id: addressId }, message: 'Endereço cadastrado.' });
+    return created(res, {
+      data: {
+        id: userAddressId,
+        addressId,
+        // Compatibilidade retroativa
+        address_id: addressId,
+      },
+      message: 'Endereço cadastrado.',
+    });
   } catch (err) {
     return next(err);
   }

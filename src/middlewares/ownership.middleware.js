@@ -20,6 +20,15 @@
 const { db } = require('../config/database');
 const { ForbiddenError, NotFoundError } = require('../errors/AppError');
 
+function getUserType(req) {
+  return req?.user?.user_type || req?.user?.userType || null;
+}
+
+function isPlatformAdmin(req) {
+  const userType = getUserType(req);
+  return userType === 'platform_admin' || userType === 'super_admin';
+}
+
 // --------------------------------------------------------------------------
 // Restaurant context
 // --------------------------------------------------------------------------
@@ -34,12 +43,16 @@ async function loadRestaurantContext(req, _res, next, restaurantId) {
   const restaurant = await db('restaurants')
     .where({ id: restaurantId })
     .whereNull('deleted_at')
-    .select('id', 'slug', 'trade_name', 'status')
+    .select('id', 'slug', 'trade_name', 'status', 'is_open')
     .first();
 
   if (!restaurant) {
     return next(new NotFoundError('Restaurante não encontrado.'));
   }
+
+  // Compatibilidade snake_case/camelCase
+  restaurant.trade_name = restaurant.trade_name || restaurant.tradeName;
+  restaurant.is_open = restaurant.is_open ?? restaurant.isOpen;
 
   req.restaurant = restaurant;
   return next();
@@ -52,7 +65,7 @@ async function loadRestaurantContext(req, _res, next, restaurantId) {
 async function assertRestaurantMembership(req, _res, next) {
   if (!req.user || !req.restaurant) return next(new ForbiddenError());
 
-  if (req.user.user_type === 'super_admin') return next();
+  if (isPlatformAdmin(req)) return next();
 
   const membership = await db('restaurant_users')
     .where({
@@ -92,6 +105,12 @@ async function loadOrderContext(req, _res, next, orderId) {
     return next(new NotFoundError('Pedido não encontrado.'));
   }
 
+  // Compatibilidade snake_case/camelCase
+  order.customer_user_id = order.customer_user_id || order.customerUserId;
+  order.restaurant_id = order.restaurant_id || order.restaurantId;
+  order.payment_status = order.payment_status || order.paymentStatus;
+  order.order_number = order.order_number || order.orderNumber;
+
   req.order = order;
   return next();
 }
@@ -102,7 +121,7 @@ async function loadOrderContext(req, _res, next, orderId) {
  */
 function assertCustomerOrderOwnership(req, _res, next) {
   if (!req.user || !req.order) return next(new ForbiddenError());
-  if (req.user.user_type === 'super_admin') return next();
+  if (isPlatformAdmin(req)) return next();
 
   if (req.order.customer_user_id !== req.user.id) {
     return next(new ForbiddenError('Você não tem acesso a este pedido.'));
@@ -116,7 +135,7 @@ function assertCustomerOrderOwnership(req, _res, next) {
  */
 function assertRestaurantOrderOwnership(req, _res, next) {
   if (!req.user || !req.order || !req.restaurant) return next(new ForbiddenError());
-  if (req.user.user_type === 'super_admin') return next();
+  if (isPlatformAdmin(req)) return next();
 
   if (req.order.restaurant_id !== req.restaurant.id) {
     return next(new ForbiddenError('Este pedido não pertence ao seu restaurante.'));
@@ -135,7 +154,7 @@ function assertRestaurantOrderOwnership(req, _res, next) {
  */
 function assertSelfOwnership(req, _res, next) {
   if (!req.user) return next(new ForbiddenError());
-  if (req.user.user_type === 'super_admin') return next();
+  if (isPlatformAdmin(req)) return next();
 
   const paramId = parseInt(req.params.userId, 10);
   if (req.user.id !== paramId) {
