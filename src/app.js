@@ -26,7 +26,39 @@ const app = express();
 // --------------------------------------------------------------------------
 // Segurança — headers HTTP defensivos
 // --------------------------------------------------------------------------
-app.use(helmet());
+app.use(
+  helmet({
+    contentSecurityPolicy: {
+      useDefaults: true,
+      directives: {
+        defaultSrc: ["'self'"],
+        scriptSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net',
+          'https://ajax.googleapis.com',
+          'https://unpkg.com',
+          'https://cdnjs.cloudflare.com',
+        ],
+        styleSrc: [
+          "'self'",
+          "'unsafe-inline'",
+          'https://cdn.jsdelivr.net',
+          'https://cdnjs.cloudflare.com',
+        ],
+        fontSrc: ["'self'", 'data:', 'https://cdnjs.cloudflare.com'],
+        imgSrc: ["'self'", 'data:', 'https:'],
+        connectSrc: [
+          "'self'",
+          'https://cdn.jsdelivr.net',
+          'https://ajax.googleapis.com',
+          'https://unpkg.com',
+          'https://cdnjs.cloudflare.com',
+        ],
+      },
+    },
+  })
+);
 
 // --------------------------------------------------------------------------
 // CORS
