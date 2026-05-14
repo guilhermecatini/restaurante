@@ -127,6 +127,9 @@ if (!env.IS_PRODUCTION) {
 // Rotas
 // --------------------------------------------------------------------------
 app.use('/api', routes);
+const v1Routes = require('./routes/v1');
+app.use('/api/v1', v1Routes);
+app.use('/api', routes);
 
 // Rota de health-check
 app.get('/health', (_req, res) => {

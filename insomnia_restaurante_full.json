@@ -1,0 +1,3440 @@
+{
+  "_type": "export",
+  "__export_format": 4,
+  "__export_date": "2026-05-14T18:13:03.041Z",
+  "__export_source": "github.copilot.gpt-5.3-codex",
+  "resources": [
+    {
+      "_id": "wrk_0001",
+      "_type": "workspace",
+      "name": "Restaurante API - Full Test",
+      "description": "Colecao completa para testar todas as rotas /api e /api/v1.",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "scope": "collection"
+    },
+    {
+      "_id": "env_0002",
+      "_type": "environment",
+      "parentId": "wrk_0001",
+      "name": "Base Environment",
+      "data": {
+        "base_url": "http://localhost:3000",
+        "legacy_email": "admin@example.com",
+        "legacy_password": "Admin@123456",
+        "legacy_access_token": "",
+        "legacy_refresh_token": "",
+        "v1_customer_email": "cliente@example.com",
+        "v1_customer_password": "Cliente@123",
+        "v1_customer_access_token": "",
+        "v1_customer_refresh_token": "",
+        "v1_staff_email": "owner@restaurante.com",
+        "v1_staff_password": "Owner@123",
+        "v1_staff_access_token": "",
+        "v1_staff_refresh_token": "",
+        "user_id": "1",
+        "client_id": "1",
+        "restaurant_id": "1",
+        "category_id": "1",
+        "product_id": "1",
+        "addon_group_id": "1",
+        "addon_id": "1",
+        "combo_id": "1",
+        "coupon_id": "1",
+        "zone_id": "1",
+        "hour_id": "1",
+        "member_id": "1",
+        "image_id": "1",
+        "address_id": "1",
+        "cart_id": "1",
+        "cart_item_id": "1",
+        "order_id": "1",
+        "reset_token": "COLOQUE_TOKEN_AQUI",
+        "verify_email_token": "COLOQUE_TOKEN_AQUI"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z"
+    },
+    {
+      "_id": "fld_0003",
+      "_type": "request_group",
+      "parentId": "wrk_0001",
+      "name": "Health",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0004",
+      "_type": "request",
+      "parentId": "fld_0003",
+      "name": "GET /health",
+      "method": "GET",
+      "url": "{{ _.base_url }}/health",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0005",
+      "_type": "request",
+      "parentId": "fld_0003",
+      "name": "GET /api/docs",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/docs",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0006",
+      "_type": "request",
+      "parentId": "fld_0003",
+      "name": "GET /api/docs.json",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/docs.json",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0007",
+      "_type": "request_group",
+      "parentId": "wrk_0001",
+      "name": "Legacy API (/api)",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "fld_0008",
+      "_type": "request_group",
+      "parentId": "fld_0007",
+      "name": "Auth",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0009",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "POST /api/auth/register",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/register",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstName\": \"Admin\",\n  \"lastName\": \"Legacy\",\n  \"birthDate\": \"1990-05-20\",\n  \"email\": \"admin@example.com\",\n  \"phone\": \"+55 11 99999-1111\",\n  \"password\": \"Admin@123456\",\n  \"confirmPassword\": \"Admin@123456\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0010",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "POST /api/auth/login",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/login",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.legacy_email }}\",\n  \"password\": \"{{ _.legacy_password }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0011",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "GET /api/auth/google",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/auth/google",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0012",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "GET /api/auth/google/callback",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/auth/google/callback?code=TEST_CODE",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0013",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "GET /api/auth/microsoft",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/auth/microsoft",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0014",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "GET /api/auth/microsoft/callback",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/auth/microsoft/callback?code=TEST_CODE",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0015",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "POST /api/auth/refresh",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/refresh",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ _.legacy_refresh_token }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0016",
+      "_type": "request",
+      "parentId": "fld_0008",
+      "name": "POST /api/auth/logout",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/auth/logout",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refreshToken\": \"{{ _.legacy_refresh_token }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0017",
+      "_type": "request_group",
+      "parentId": "fld_0007",
+      "name": "Users",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0018",
+      "_type": "request",
+      "parentId": "fld_0017",
+      "name": "GET /api/users",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/users?page=1&limit=10&search=admin",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0019",
+      "_type": "request",
+      "parentId": "fld_0017",
+      "name": "GET /api/users/:id",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0020",
+      "_type": "request",
+      "parentId": "fld_0017",
+      "name": "POST /api/users",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/users",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstName\": \"Novo\",\n  \"lastName\": \"Usuario\",\n  \"birthDate\": \"1998-01-15\",\n  \"email\": \"novo.usuario@example.com\",\n  \"phone\": \"+55 11 98888-7777\",\n  \"password\": \"User@123456\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0021",
+      "_type": "request",
+      "parentId": "fld_0017",
+      "name": "PUT /api/users/:id",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"firstName\": \"Atualizado\",\n  \"phone\": \"+55 11 97777-6666\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0022",
+      "_type": "request",
+      "parentId": "fld_0017",
+      "name": "DELETE /api/users/:id",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/users/{{ _.user_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0023",
+      "_type": "request_group",
+      "parentId": "fld_0007",
+      "name": "Clients",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0024",
+      "_type": "request",
+      "parentId": "fld_0023",
+      "name": "GET /api/clients",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/clients?page=1&limit=10&status=prospect&marketSegment=B2B&search=Acme",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0025",
+      "_type": "request",
+      "parentId": "fld_0023",
+      "name": "GET /api/clients/:id",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/clients/{{ _.client_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0026",
+      "_type": "request",
+      "parentId": "fld_0023",
+      "name": "POST /api/clients",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/clients",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"companyName\": \"Acme Tecnologia SA\",\n  \"tradeName\": \"AcmeTech\",\n  \"taxId\": \"12.345.678/0001-99\",\n  \"companySize\": \"large\",\n  \"industrySector\": \"Tecnologia\",\n  \"marketSegment\": \"B2B SaaS\",\n  \"status\": \"prospect\",\n  \"website\": \"https://acme.example.com\",\n  \"address\": \"Av. Paulista, 1000\",\n  \"city\": \"Sao Paulo\",\n  \"state\": \"SP\",\n  \"country\": \"Brasil\",\n  \"zipCode\": \"01310-100\",\n  \"businessContactName\": \"Carla Ferreira\",\n  \"businessContactEmail\": \"carla@acme.com\",\n  \"technicalContactName\": \"Rafael Costa\",\n  \"technicalContactEmail\": \"rafael@acme.com\",\n  \"businessObjectives\": \"Modernizar o legado.\",\n  \"technicalConstraints\": \"Sem cloud publica.\",\n  \"stakeholders\": [\n    {\n      \"name\": \"Carla Ferreira\",\n      \"role\": \"Diretora\",\n      \"email\": \"carla@acme.com\"\n    },\n    {\n      \"name\": \"Rafael Costa\",\n      \"role\": \"Arquiteto\",\n      \"email\": \"rafael@acme.com\"\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0027",
+      "_type": "request",
+      "parentId": "fld_0023",
+      "name": "PUT /api/clients/:id",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/clients/{{ _.client_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"active\",\n  \"notes\": \"Cliente convertido em contrato.\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0028",
+      "_type": "request",
+      "parentId": "fld_0023",
+      "name": "DELETE /api/clients/:id",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/clients/{{ _.client_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.legacy_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0029",
+      "_type": "request_group",
+      "parentId": "wrk_0001",
+      "name": "API v1 (/api/v1)",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "fld_0030",
+      "_type": "request_group",
+      "parentId": "fld_0029",
+      "name": "Auth",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0031",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/register",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/register",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"first_name\": \"Cliente\",\n  \"last_name\": \"Teste\",\n  \"email\": \"{{ _.v1_customer_email }}\",\n  \"password\": \"{{ _.v1_customer_password }}\",\n  \"password_confirmation\": \"{{ _.v1_customer_password }}\",\n  \"phone\": \"+55 11 98888-0000\",\n  \"birth_date\": \"1995-04-10\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0032",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/login (customer)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/login",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.v1_customer_email }}\",\n  \"password\": \"{{ _.v1_customer_password }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0033",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/login (staff)",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/login",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.v1_staff_email }}\",\n  \"password\": \"{{ _.v1_staff_password }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0034",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/refresh",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/refresh",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refresh_token\": \"{{ _.v1_customer_refresh_token }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0035",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/forgot-password",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/forgot-password",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"{{ _.v1_customer_email }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0036",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/reset-password",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/reset-password",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"token\": \"{{ _.reset_token }}\",\n  \"password\": \"NovaSenha@123\",\n  \"password_confirmation\": \"NovaSenha@123\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0037",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/verify-email",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/verify-email",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"token\": \"{{ _.verify_email_token }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0038",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "GET /api/v1/auth/me",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/auth/me",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0039",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/change-password",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/change-password",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"current_password\": \"{{ _.v1_customer_password }}\",\n  \"new_password\": \"Cliente@456\",\n  \"new_password_confirmation\": \"Cliente@456\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0040",
+      "_type": "request",
+      "parentId": "fld_0030",
+      "name": "POST /api/v1/auth/logout",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/auth/logout",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"refresh_token\": \"{{ _.v1_customer_refresh_token }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0041",
+      "_type": "request_group",
+      "parentId": "fld_0029",
+      "name": "Public",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0042",
+      "_type": "request",
+      "parentId": "fld_0041",
+      "name": "GET /api/v1/public/restaurants",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/public/restaurants?page=1&per_page=20&sort=trade_name&order=asc&city=Sao%20Paulo&is_open=true",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0043",
+      "_type": "request",
+      "parentId": "fld_0041",
+      "name": "GET /api/v1/public/restaurants/search",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/public/restaurants/search?q=hamburguer&city=Sao%20Paulo",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0044",
+      "_type": "request",
+      "parentId": "fld_0041",
+      "name": "GET /api/v1/public/restaurants/:restaurantId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/public/restaurants/{{ _.restaurant_id }}",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0045",
+      "_type": "request",
+      "parentId": "fld_0041",
+      "name": "GET /api/v1/public/restaurants/:restaurantId/menu",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/public/restaurants/{{ _.restaurant_id }}/menu",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0046",
+      "_type": "request",
+      "parentId": "fld_0041",
+      "name": "GET /api/v1/public/restaurants/:restaurantId/reviews",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/public/restaurants/{{ _.restaurant_id }}/reviews?page=1&per_page=10&rating=5",
+      "description": "",
+      "authentication": {
+        "type": "none"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0047",
+      "_type": "request_group",
+      "parentId": "fld_0029",
+      "name": "Customer",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "fld_0048",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Profile",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0049",
+      "_type": "request",
+      "parentId": "fld_0048",
+      "name": "GET /api/v1/customer/profile",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0050",
+      "_type": "request",
+      "parentId": "fld_0048",
+      "name": "PUT /api/v1/customer/profile",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/customer/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"first_name\": \"Cliente\",\n  \"last_name\": \"Atualizado\",\n  \"phone\": \"+55 11 97777-0000\",\n  \"birth_date\": \"1995-04-10\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0051",
+      "_type": "request",
+      "parentId": "fld_0048",
+      "name": "DELETE /api/v1/customer/profile",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/customer/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0052",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Addresses",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0053",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "GET /api/v1/customer/addresses",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0054",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "POST /api/v1/customer/addresses",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"zip_code\": \"01310-100\",\n  \"street\": \"Av Paulista\",\n  \"number\": \"1000\",\n  \"complement\": \"Apto 12\",\n  \"neighborhood\": \"Bela Vista\",\n  \"city\": \"Sao Paulo\",\n  \"state\": \"SP\",\n  \"country\": \"Brazil\",\n  \"label\": \"Casa\",\n  \"is_default\": true,\n  \"reference_note\": \"Proximo ao metro\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0055",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "GET /api/v1/customer/addresses/:addressId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses/{{ _.address_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0056",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "PUT /api/v1/customer/addresses/:addressId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses/{{ _.address_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"street\": \"Rua Atualizada\",\n  \"number\": \"200\",\n  \"neighborhood\": \"Centro\",\n  \"city\": \"Sao Paulo\",\n  \"state\": \"SP\",\n  \"zip_code\": \"01000-000\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0057",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "DELETE /api/v1/customer/addresses/:addressId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses/{{ _.address_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0058",
+      "_type": "request",
+      "parentId": "fld_0052",
+      "name": "PATCH /api/v1/customer/addresses/:addressId/default",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/customer/addresses/{{ _.address_id }}/default",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0059",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Favorites",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0060",
+      "_type": "request",
+      "parentId": "fld_0059",
+      "name": "GET /api/v1/customer/favorites",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/favorites",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0061",
+      "_type": "request",
+      "parentId": "fld_0059",
+      "name": "POST /api/v1/customer/favorites",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/favorites",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"restaurant_id\": \"{{ _.restaurant_id }}\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0062",
+      "_type": "request",
+      "parentId": "fld_0059",
+      "name": "DELETE /api/v1/customer/favorites/:restaurantId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/customer/favorites/{{ _.restaurant_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0063",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Cart",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0064",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "GET /api/v1/customer/cart",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/cart?restaurant_id={{ _.restaurant_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0065",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "POST /api/v1/customer/cart/items",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/cart/items",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"restaurant_id\": 1,\n  \"product_id\": 1,\n  \"quantity\": 2,\n  \"customer_notes\": \"Sem cebola\",\n  \"addons\": [\n    {\n      \"addon_id\": 1,\n      \"quantity\": 1\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0066",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "PUT /api/v1/customer/cart/items/:cartItemId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/customer/cart/items/{{ _.cart_item_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"quantity\": 3,\n  \"customer_notes\": \"Ponto da carne bem passado\",\n  \"addons\": [\n    {\n      \"addon_id\": 1,\n      \"quantity\": 2\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0067",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "DELETE /api/v1/customer/cart/items/:cartItemId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/customer/cart/items/{{ _.cart_item_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0068",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "DELETE /api/v1/customer/cart",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/customer/cart?restaurant_id={{ _.restaurant_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0069",
+      "_type": "request",
+      "parentId": "fld_0063",
+      "name": "POST /api/v1/customer/cart/validate-coupon",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/cart/validate-coupon",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"coupon_code\": \"PROMO10\",\n  \"restaurant_id\": 1\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0070",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Orders",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0071",
+      "_type": "request",
+      "parentId": "fld_0070",
+      "name": "GET /api/v1/customer/orders",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/orders?page=1&per_page=10",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0072",
+      "_type": "request",
+      "parentId": "fld_0070",
+      "name": "POST /api/v1/customer/orders",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/orders",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"cart_id\": 1,\n  \"delivery_address_id\": 1,\n  \"order_type\": \"delivery\",\n  \"coupon_code\": \"PROMO10\",\n  \"payment_method\": \"pix\",\n  \"customer_notes\": \"Entregar sem contato\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0073",
+      "_type": "request",
+      "parentId": "fld_0070",
+      "name": "GET /api/v1/customer/orders/:orderId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/orders/{{ _.order_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0074",
+      "_type": "request",
+      "parentId": "fld_0070",
+      "name": "GET /api/v1/customer/orders/:orderId/track",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/orders/{{ _.order_id }}/track",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0075",
+      "_type": "request",
+      "parentId": "fld_0070",
+      "name": "POST /api/v1/customer/orders/:orderId/cancel",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/orders/{{ _.order_id }}/cancel",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0076",
+      "_type": "request_group",
+      "parentId": "fld_0047",
+      "name": "Reviews",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0077",
+      "_type": "request",
+      "parentId": "fld_0076",
+      "name": "GET /api/v1/customer/reviews",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/customer/reviews?page=1&per_page=20",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0078",
+      "_type": "request",
+      "parentId": "fld_0076",
+      "name": "POST /api/v1/customer/reviews/restaurants",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/reviews/restaurants",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"order_id\": 1,\n  \"rating\": 5,\n  \"comment\": \"Excelente restaurante.\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0079",
+      "_type": "request",
+      "parentId": "fld_0076",
+      "name": "POST /api/v1/customer/reviews/orders/:orderId",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/customer/reviews/orders/{{ _.order_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_customer_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"delivery_rating\": 5,\n  \"packaging_rating\": 4,\n  \"overall_rating\": 5,\n  \"comment\": \"Entrega rapida e bem embalada.\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0080",
+      "_type": "request_group",
+      "parentId": "fld_0029",
+      "name": "Restaurant",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "fld_0081",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Root",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0082",
+      "_type": "request",
+      "parentId": "fld_0081",
+      "name": "GET /api/v1/restaurant",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0083",
+      "_type": "request",
+      "parentId": "fld_0081",
+      "name": "POST /api/v1/restaurant",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"slug\": \"restaurante-demo\",\n  \"legal_name\": \"Restaurante Demo LTDA\",\n  \"trade_name\": \"Demo Burgers\",\n  \"document_number\": \"12.345.678/0001-10\",\n  \"support_phone\": \"+55 11 96666-5555\",\n  \"support_email\": \"contato@demo.com\",\n  \"description\": \"Hamburgueria artesanal.\",\n  \"minimum_order_value\": 20,\n  \"base_delivery_fee\": 6.5,\n  \"avg_preparation_time_min\": 30,\n  \"accepts_pickup\": true,\n  \"accepts_delivery\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0084",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Profile",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0085",
+      "_type": "request",
+      "parentId": "fld_0084",
+      "name": "GET /api/v1/restaurant/:restaurantId/profile",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0086",
+      "_type": "request",
+      "parentId": "fld_0084",
+      "name": "PUT /api/v1/restaurant/:restaurantId/profile",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"trade_name\": \"Demo Burgers Prime\",\n  \"description\": \"Casa especializada em burgers premium.\",\n  \"minimum_order_value\": 25,\n  \"base_delivery_fee\": 7\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0087",
+      "_type": "request",
+      "parentId": "fld_0084",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/profile/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/profile/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_open\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0088",
+      "_type": "request",
+      "parentId": "fld_0084",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/profile",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/profile",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0089",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Categories",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0090",
+      "_type": "request",
+      "parentId": "fld_0089",
+      "name": "GET /api/v1/restaurant/:restaurantId/categories",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/categories",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0091",
+      "_type": "request",
+      "parentId": "fld_0089",
+      "name": "POST /api/v1/restaurant/:restaurantId/categories",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/categories",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Hamburgueres\",\n  \"slug\": \"hamburgueres\",\n  \"sort_order\": 1,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0092",
+      "_type": "request",
+      "parentId": "fld_0089",
+      "name": "PUT /api/v1/restaurant/:restaurantId/categories/:categoryId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/categories/{{ _.category_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Burgers Artesanais\",\n  \"sort_order\": 2\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0093",
+      "_type": "request",
+      "parentId": "fld_0089",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/categories/:categoryId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/categories/{{ _.category_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0094",
+      "_type": "request",
+      "parentId": "fld_0089",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/categories/reorder",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/categories/reorder",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"categories\": [\n    {\n      \"id\": 1,\n      \"sort_order\": 1\n    },\n    {\n      \"id\": 2,\n      \"sort_order\": 2\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0095",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Products",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0096",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "GET /api/v1/restaurant/:restaurantId/products",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products?page=1&per_page=20&search=burger&category_id={{ _.category_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0097",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "POST /api/v1/restaurant/:restaurantId/products",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"category_id\": 1,\n  \"name\": \"Burger Classic\",\n  \"slug\": \"burger-classic\",\n  \"description\": \"Pao, carne, queijo e molho especial.\",\n  \"sku\": \"BURG-001\",\n  \"base_price\": 29.9,\n  \"stock_control_enabled\": true,\n  \"stock_quantity\": 50,\n  \"preparation_time_min\": 20,\n  \"sort_order\": 1,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0098",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "GET /api/v1/restaurant/:restaurantId/products/:productId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0099",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "PUT /api/v1/restaurant/:restaurantId/products/:productId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Burger Classic Duplo\",\n  \"description\": \"Versao com duas carnes.\",\n  \"base_price\": 35.9,\n  \"stock_quantity\": 40\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0100",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/products/:productId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0101",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/products/:productId/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0102",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/products/:productId/stock",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/stock",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"stock_quantity\": 25\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0103",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "POST /api/v1/restaurant/:restaurantId/products/:productId/images",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/images",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"image_url\": \"https://images.example.com/burger.jpg\",\n  \"alt_text\": \"Burger Classic\",\n  \"sort_order\": 1\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0104",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/products/:productId/images/:imageId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/images/{{ _.image_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0105",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "GET /api/v1/restaurant/:restaurantId/products/:productId/addon-groups",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/addon-groups",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0106",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "POST /api/v1/restaurant/:restaurantId/products/:productId/addon-groups",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/addon-groups",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"addon_group_id\": 1\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0107",
+      "_type": "request",
+      "parentId": "fld_0095",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/products/:productId/addon-groups/:addonGroupId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/products/{{ _.product_id }}/addon-groups/{{ _.addon_group_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0108",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Addons",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0109",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "GET /api/v1/restaurant/:restaurantId/addons/groups",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0110",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "POST /api/v1/restaurant/:restaurantId/addons/groups",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Escolha de Queijos\",\n  \"description\": \"Adicionais de queijo\",\n  \"min_select\": 0,\n  \"max_select\": 2,\n  \"is_required\": false,\n  \"sort_order\": 1,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0111",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "PUT /api/v1/restaurant/:restaurantId/addons/groups/:groupId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups/{{ _.addon_group_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Queijos Premium\",\n  \"max_select\": 3\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0112",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/addons/groups/:groupId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups/{{ _.addon_group_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0113",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "GET /api/v1/restaurant/:restaurantId/addons/groups/:groupId/items",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups/{{ _.addon_group_id }}/items",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0114",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "POST /api/v1/restaurant/:restaurantId/addons/groups/:groupId/items",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/groups/{{ _.addon_group_id }}/items",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"addon_group_id\": 1,\n  \"name\": \"Queijo Cheddar\",\n  \"description\": \"Fatia extra\",\n  \"price_delta\": 4.5,\n  \"sort_order\": 1,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0115",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "PUT /api/v1/restaurant/:restaurantId/addons/items/:addonId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/items/{{ _.addon_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Queijo Brie\",\n  \"price_delta\": 7.9\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0116",
+      "_type": "request",
+      "parentId": "fld_0108",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/addons/items/:addonId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/addons/items/{{ _.addon_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0117",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Combos",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0118",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "GET /api/v1/restaurant/:restaurantId/combos",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos?page=1&per_page=20",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0119",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "POST /api/v1/restaurant/:restaurantId/combos",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"category_id\": 1,\n  \"name\": \"Combo Casal\",\n  \"slug\": \"combo-casal\",\n  \"description\": \"2 burgers + 2 bebidas\",\n  \"combo_price\": 59.9,\n  \"is_active\": true,\n  \"items\": [\n    {\n      \"product_id\": 1,\n      \"quantity\": 2,\n      \"min_quantity\": 1,\n      \"max_quantity\": 2\n    },\n    {\n      \"product_id\": 2,\n      \"quantity\": 2,\n      \"min_quantity\": 1,\n      \"max_quantity\": 2\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0120",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "GET /api/v1/restaurant/:restaurantId/combos/:comboId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos/{{ _.combo_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0121",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "PUT /api/v1/restaurant/:restaurantId/combos/:comboId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos/{{ _.combo_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Combo Familia\",\n  \"combo_price\": 89.9,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0122",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/combos/:comboId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos/{{ _.combo_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0123",
+      "_type": "request",
+      "parentId": "fld_0117",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/combos/:comboId/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/combos/{{ _.combo_id }}/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0124",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Coupons",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0125",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "GET /api/v1/restaurant/:restaurantId/coupons",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons?page=1&per_page=20",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0126",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "POST /api/v1/restaurant/:restaurantId/coupons",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"code\": \"PROMO10\",\n  \"discount_type\": \"percentage\",\n  \"discount_value\": 10,\n  \"max_discount_amount\": 20,\n  \"min_order_value\": 30,\n  \"usage_limit_total\": 100,\n  \"usage_limit_per_user\": 1,\n  \"starts_at\": \"2026-05-14T00:00:00.000Z\",\n  \"ends_at\": \"2026-12-31T23:59:59.000Z\",\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0127",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "GET /api/v1/restaurant/:restaurantId/coupons/:couponId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons/{{ _.coupon_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0128",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "PUT /api/v1/restaurant/:restaurantId/coupons/:couponId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons/{{ _.coupon_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"discount_type\": \"fixed_amount\",\n  \"discount_value\": 15,\n  \"min_order_value\": 40,\n  \"ends_at\": \"2026-12-31T23:59:59.000Z\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0129",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/coupons/:couponId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons/{{ _.coupon_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0130",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/coupons/:couponId/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons/{{ _.coupon_id }}/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0131",
+      "_type": "request",
+      "parentId": "fld_0124",
+      "name": "GET /api/v1/restaurant/:restaurantId/coupons/:couponId/redemptions",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/coupons/{{ _.coupon_id }}/redemptions?page=1&per_page=20",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0132",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Hours",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0133",
+      "_type": "request",
+      "parentId": "fld_0132",
+      "name": "GET /api/v1/restaurant/:restaurantId/hours",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/hours",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0134",
+      "_type": "request",
+      "parentId": "fld_0132",
+      "name": "PUT /api/v1/restaurant/:restaurantId/hours",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/hours",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"hours\": [\n    {\n      \"weekday\": 1,\n      \"shift_index\": 1,\n      \"opens_at\": \"11:00\",\n      \"closes_at\": \"22:00\",\n      \"is_closed\": false\n    },\n    {\n      \"weekday\": 2,\n      \"shift_index\": 1,\n      \"opens_at\": \"11:00\",\n      \"closes_at\": \"22:00\",\n      \"is_closed\": false\n    },\n    {\n      \"weekday\": 0,\n      \"shift_index\": 1,\n      \"opens_at\": null,\n      \"closes_at\": null,\n      \"is_closed\": true\n    }\n  ]\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0135",
+      "_type": "request",
+      "parentId": "fld_0132",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/hours/:hourId",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/hours/{{ _.hour_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"weekday\": 5,\n  \"shift_index\": 1,\n  \"opens_at\": \"18:00\",\n  \"closes_at\": \"23:30\",\n  \"is_closed\": false\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0136",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Delivery Zones",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0137",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "GET /api/v1/restaurant/:restaurantId/delivery-zones",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0138",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "POST /api/v1/restaurant/:restaurantId/delivery-zones",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Zona Centro\",\n  \"zone_type\": \"radius\",\n  \"radius_km\": 5,\n  \"polygon_geojson\": null,\n  \"minimum_order_value\": 20,\n  \"delivery_fee\": 7,\n  \"estimated_delivery_time_min\": 45,\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0139",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "GET /api/v1/restaurant/:restaurantId/delivery-zones/:zoneId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones/{{ _.zone_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0140",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "PUT /api/v1/restaurant/:restaurantId/delivery-zones/:zoneId",
+      "method": "PUT",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones/{{ _.zone_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"name\": \"Zona Centro Expandida\",\n  \"radius_km\": 7,\n  \"delivery_fee\": 9\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0141",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/delivery-zones/:zoneId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones/{{ _.zone_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0142",
+      "_type": "request",
+      "parentId": "fld_0136",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/delivery-zones/:zoneId/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/delivery-zones/{{ _.zone_id }}/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"is_active\": true\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0143",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Orders",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0144",
+      "_type": "request",
+      "parentId": "fld_0143",
+      "name": "GET /api/v1/restaurant/:restaurantId/orders",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/orders?page=1&per_page=20&status=pending",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0145",
+      "_type": "request",
+      "parentId": "fld_0143",
+      "name": "GET /api/v1/restaurant/:restaurantId/orders/:orderId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/orders/{{ _.order_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0146",
+      "_type": "request",
+      "parentId": "fld_0143",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/orders/:orderId/status",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/orders/{{ _.order_id }}/status",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"status\": \"preparing\",\n  \"notes\": \"Iniciando preparo\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0147",
+      "_type": "request",
+      "parentId": "fld_0143",
+      "name": "GET /api/v1/restaurant/:restaurantId/orders/:orderId/items",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/orders/{{ _.order_id }}/items",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0148",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Team",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0149",
+      "_type": "request",
+      "parentId": "fld_0148",
+      "name": "GET /api/v1/restaurant/:restaurantId/team",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/team",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0150",
+      "_type": "request",
+      "parentId": "fld_0148",
+      "name": "POST /api/v1/restaurant/:restaurantId/team",
+      "method": "POST",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/team",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"email\": \"novo.colaborador@demo.com\",\n  \"role\": \"manager\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0151",
+      "_type": "request",
+      "parentId": "fld_0148",
+      "name": "GET /api/v1/restaurant/:restaurantId/team/:memberId",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/team/{{ _.member_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0152",
+      "_type": "request",
+      "parentId": "fld_0148",
+      "name": "PATCH /api/v1/restaurant/:restaurantId/team/:memberId/role",
+      "method": "PATCH",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/team/{{ _.member_id }}/role",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [
+        {
+          "name": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mimeType": "application/json",
+        "text": "{\n  \"role\": \"finance\"\n}"
+      },
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0153",
+      "_type": "request",
+      "parentId": "fld_0148",
+      "name": "DELETE /api/v1/restaurant/:restaurantId/team/:memberId",
+      "method": "DELETE",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/team/{{ _.member_id }}",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "fld_0154",
+      "_type": "request_group",
+      "parentId": "fld_0080",
+      "name": "Dashboard",
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "environment": {}
+    },
+    {
+      "_id": "req_0155",
+      "_type": "request",
+      "parentId": "fld_0154",
+      "name": "GET /api/v1/restaurant/:restaurantId/dashboard/summary",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/dashboard/summary?date=2026-05-14",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0156",
+      "_type": "request",
+      "parentId": "fld_0154",
+      "name": "GET /api/v1/restaurant/:restaurantId/dashboard/orders-stats",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/dashboard/orders-stats?from=2026-05-01&to=2026-05-14",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0157",
+      "_type": "request",
+      "parentId": "fld_0154",
+      "name": "GET /api/v1/restaurant/:restaurantId/dashboard/revenue",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/dashboard/revenue?from=2026-05-01&to=2026-05-14",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    },
+    {
+      "_id": "req_0158",
+      "_type": "request",
+      "parentId": "fld_0154",
+      "name": "GET /api/v1/restaurant/:restaurantId/dashboard/top-products",
+      "method": "GET",
+      "url": "{{ _.base_url }}/api/v1/restaurant/{{ _.restaurant_id }}/dashboard/top-products?from=2026-05-01&to=2026-05-14&limit=10",
+      "description": "",
+      "authentication": {
+        "type": "bearer",
+        "token": "{{ _.v1_staff_access_token }}"
+      },
+      "created": "2026-05-14T18:13:03.041Z",
+      "modified": "2026-05-14T18:13:03.041Z",
+      "headers": [],
+      "body": {},
+      "parameters": [],
+      "settingStoreCookies": true,
+      "settingSendCookies": true,
+      "settingFollowRedirects": "global"
+    }
+  ]
+}
