@@ -1,6 +1,6 @@
 # Dependências
 node_modules/
-public
+# public
 .npm
 
 # Variáveis de ambiente — NUNCA versionar o .env real

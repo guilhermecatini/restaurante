@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <button data-ui-sref="loja" type="button" class="floating-button"><i class="fa-solid fa-chevron-left"></i></button>
+    <div class="row">
+        <div class="card">
+            <div class="text-center">
+                <img style="width: 100%; border-radius: 3%;" class="img-fluid" data-ng-src="{{item.imagem}}" />
+            </div>
+            <div class="card-body">
+
+                <h5 style="color: #333;" class="card-title">{{item.nome}}</h5>
+
+                <p style="font-size: 10pt;">
+                    <br />
+                    <span style="color: gray;">{{item.descricao}}</span>
+                    <br />
+                    <small style=" color: #333;"><strong>{{item.porcao}}</strong></small>
+                        <br />
+                        <br />
+                        <small style="color: gray;">{{item.valor_unitario_formatado}}</small>
+                </p>
+
+                <div class="col-12">
+                    <hr />
+                    <div style="display: flex;">
+                        <div style="flex: 3;"><label style="color: #333;" for="observacao">Observações</label></div>
+                        <div style="flex: 1;" class="text-end"><small style="font-size: 8pt;">{{item.observacao.length}}/150</small></div>
+                    </div>
+                    <textarea data-ng-model="item.observacao" maxlength="150" id="observacao" class="form-control" placeholder="Ex: Sem tomate e maionese a parte"
+                        style="height: 100px"></textarea>
+                </div>
+
+                <div class="col-12">
+                    <br />
+                    <div class="d-grid gap-2">
+                        <div style="display: flex;">
+                            <div style="flex: 1;">
+                                <div class="btn-toolbar" role="toolbar" aria-label="Toolbar with button groups">
+                                    <div class="btn-group me-2" role="group" aria-label="First group">
+                                        <button type="button" class="btn"
+                                            data-ng-click="alterar_quantidade('-')">-</button>
+                                        <button type="button" class="btn">{{item.quantidade}}</button>
+                                        <button type="button" class="btn"
+                                            data-ng-click="alterar_quantidade('+')">+</button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div style="flex: 3;">
+                                <div class="d-grid gap-2">
+                                    <button class="btn btn-primary" type="button" data-ng-click="adicionar_ao_carrinho()">
+                                        <div style="display: flex;">
+                                            <div style="flex: 1; text-wrap: nowrap;" class="text-start">Adicionar</div>
+                                            <div style="flex: 1; text-wrap: nowrap;" class="text-end">{{item.valor_total_formatado}}</div>
+                                        </div>
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
