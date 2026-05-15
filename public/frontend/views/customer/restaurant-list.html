@@ -1,40 +1,63 @@
-<section class="mt-3">
-  <h1 class="section-title mb-3">Restaurantes</h1>
+<section class="page-section">
 
-  <form class="row g-2 mb-3" ng-submit="vm.applyFilters()">
-    <div class="col-12 col-md-5">
-      <input type="text" class="form-control" placeholder="Buscar por nome" ng-model="vm.filters.search" />
-    </div>
-    <div class="col-6 col-md-3">
-      <input type="text" class="form-control" placeholder="Cidade" ng-model="vm.filters.city" />
-    </div>
-    <div class="col-6 col-md-2">
-      <select class="form-select" ng-model="vm.filters.is_open">
-        <option value="">Todos</option>
-        <option value="true">Abertos</option>
-        <option value="false">Fechados</option>
-      </select>
-    </div>
-    <div class="col-12 col-md-2 d-grid">
-      <button class="btn btn-primary" type="submit">Filtrar</button>
-    </div>
-  </form>
+  <h1 class="section-title mb-4">Restaurantes</h1>
 
-  <div class="row g-3" ng-if="!vm.loading">
-    <div class="col-12 col-md-6 col-lg-4" ng-repeat="restaurant in vm.restaurants track by restaurant.id">
-      <restaurant-card restaurant="restaurant" on-open="vm.openRestaurant(restaurant)"></restaurant-card>
+  <!-- Search + Filter -->
+  <div class="flex flex-col gap-3 mb-4">
+
+    <div class="flex gap-2">
+      <div class="search-bar flex-1">
+        <i class="bi bi-search"></i>
+        <input type="text" class="form-control" placeholder="Buscar restaurante..." ng-model="vm.filters.search" ng-change="vm.applyFilters()" />
+      </div>
+      <input type="text" class="form-control" style="max-width:140px" placeholder="Cidade" ng-model="vm.filters.city" ng-change="vm.applyFilters()" />
     </div>
+
+    <div class="filter-chips">
+      <button class="chip" ng-class="{active: !vm.filters.is_open}" ng-click="vm.filters.is_open='';vm.applyFilters()">
+        Todos
+      </button>
+      <button class="chip" ng-class="{active: vm.filters.is_open==='true'}" ng-click="vm.filters.is_open='true';vm.applyFilters()">
+        <i class="bi bi-circle-fill" style="font-size:6px;color:var(--c-success)"></i>
+        Abertos
+      </button>
+      <button class="chip" ng-class="{active: vm.filters.is_open==='false'}" ng-click="vm.filters.is_open='false';vm.applyFilters()">
+        Fechados
+      </button>
+    </div>
+
   </div>
 
-  <div class="row g-3" ng-if="vm.loading">
-    <div class="col-12 col-md-6 col-lg-4" ng-repeat="i in [1,2,3,4,5,6] track by $index">
-      <skeleton-card></skeleton-card>
-    </div>
+  <!-- Skeletons -->
+  <div class="row" ng-if="vm.loading">
+    <skeleton-card ng-repeat="i in [1,2,3,4,5,6] track by $index"></skeleton-card>
   </div>
 
-  <div class="d-flex justify-content-between align-items-center mt-3" ng-if="!vm.loading">
-    <button class="btn btn-outline-secondary btn-sm" ng-click="vm.changePage(-1)" ng-disabled="vm.filters.page <= 1">Anterior</button>
-    <small>Pagina {{vm.filters.page}}</small>
-    <button class="btn btn-outline-secondary btn-sm" ng-click="vm.changePage(1)" ng-disabled="vm.meta && vm.filters.page >= vm.meta.last_page">Proxima</button>
+  <!-- Restaurant Cards -->
+  <div class="row" ng-if="!vm.loading && vm.restaurants.length">
+    <restaurant-card
+      ng-repeat="restaurant in vm.restaurants track by restaurant.id"
+      restaurant="restaurant"
+      on-open="vm.openRestaurant(restaurant)">
+    </restaurant-card>
   </div>
+
+  <!-- Empty -->
+  <div class="empty-state" ng-if="!vm.loading && !vm.restaurants.length">
+    <i class="bi bi-shop-window"></i>
+    <p>Nenhum restaurante encontrado</p>
+    <small>Tente outros filtros ou termos de busca.</small>
+  </div>
+
+  <!-- Pagination -->
+  <div class="pagination" ng-if="!vm.loading && vm.restaurants.length">
+    <button class="btn btn-ghost btn-sm" ng-click="vm.changePage(-1)" ng-disabled="vm.filters.page <= 1">
+      <i class="bi bi-chevron-left"></i> Anterior
+    </button>
+    <span class="pagination-page">Página {{ vm.filters.page }}</span>
+    <button class="btn btn-ghost btn-sm" ng-click="vm.changePage(1)" ng-disabled="vm.meta && vm.filters.page >= vm.meta.last_page">
+      Próxima <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+
 </section>

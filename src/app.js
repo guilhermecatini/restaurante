@@ -50,12 +50,14 @@ app.use(
           "'unsafe-inline'",
           'https://cdn.jsdelivr.net',
           'https://cdnjs.cloudflare.com',
+          'https://fonts.googleapis.com',
         ],
         fontSrc: [
           "'self'",
           'data:',
           'https://cdnjs.cloudflare.com',
           'https://cdn.jsdelivr.net',
+          'https://fonts.gstatic.com',
         ],
         imgSrc: ["'self'", 'data:', 'https:'],
         connectSrc: [
@@ -65,6 +67,10 @@ app.use(
           'https://unpkg.com',
           'https://cdnjs.cloudflare.com',
         ],
+        // Remove o "upgrade-insecure-requests" que useDefaults injeta por padrão.
+        // Esse header faz o browser converter http:// → https://, quebrando
+        // acessos via IP local (ex: http://172.16.0.129:3000) em ambiente de dev.
+        upgradeInsecureRequests: null,
       },
     },
   })

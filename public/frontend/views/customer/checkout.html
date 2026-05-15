@@ -1,69 +1,165 @@
-<section class="mt-3">
-  <h1 class="section-title mb-3">Checkout</h1>
+<section class="page-section">
 
-  <div class="row g-3">
-    <div class="col-12 col-lg-8">
-      <div class="card-soft p-3 mb-3">
-        <h2 class="h6">Entrega</h2>
-        <div class="mb-2">
-          <label class="form-label">Tipo de pedido</label>
-          <select class="form-select" ng-model="vm.orderForm.order_type">
-            <option value="delivery">Entrega</option>
-            <option value="pickup">Retirada</option>
+  <h1 class="section-title mb-4">Checkout</h1>
+
+  <!-- Two-column on desktop -->
+  <div style="display:grid;gap:20px" class="checkout-grid">
+
+    <!-- LEFT: Delivery + Payment -->
+    <div class="flex flex-col gap-4">
+
+      <!-- Delivery type -->
+      <div class="card-soft p-4">
+        <p class="checkout-section-title">Tipo de entrega</p>
+        <div class="order-type-tabs">
+          <button
+            class="order-type-tab"
+            ng-class="{active: vm.orderForm.order_type === 'delivery'}"
+            ng-click="vm.orderForm.order_type='delivery'">
+            <i class="bi bi-bicycle"></i> Entrega
+          </button>
+          <button
+            class="order-type-tab"
+            ng-class="{active: vm.orderForm.order_type === 'pickup'}"
+            ng-click="vm.orderForm.order_type='pickup'">
+            <i class="bi bi-shop"></i> Retirada
+          </button>
+        </div>
+
+        <!-- Address select -->
+        <div class="form-group" ng-if="vm.orderForm.order_type === 'delivery'">
+          <label class="form-label">Selecionar endereço</label>
+          <select class="form-select"
+            ng-model="vm.selectedAddressId"
+            ng-options="address.address_id as (address.label + ' — ' + address.street + ', ' + address.number) for address in vm.addresses">
+            <option value="">Escolha um endereço...</option>
           </select>
         </div>
+      </div>
 
-        <div ng-if="vm.orderForm.order_type === 'delivery'">
-          <label class="form-label">Endereco</label>
-          <select class="form-select" ng-model="vm.selectedAddressId" ng-options="address.address_id as (address.label + ' - ' + address.street + ', ' + address.number) for address in vm.addresses">
-            <option value="">Selecione um endereco</option>
-          </select>
+      <!-- New address -->
+      <div class="card-soft p-4" ng-if="vm.orderForm.order_type === 'delivery'">
+        <p class="checkout-section-title">Novo endereço</p>
+        <div class="flex flex-col gap-3">
+          <div class="flex gap-3">
+            <div class="form-group flex-1">
+              <label class="form-label">CEP</label>
+              <input class="form-control" placeholder="00000-000" ng-model="vm.newAddress.zip_code" />
+            </div>
+            <div class="form-group" style="width:120px">
+              <label class="form-label">Número</label>
+              <input class="form-control" placeholder="Nº" ng-model="vm.newAddress.number" />
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Rua</label>
+            <input class="form-control" placeholder="Nome da rua" ng-model="vm.newAddress.street" />
+          </div>
+          <div class="form-group">
+            <label class="form-label">Complemento</label>
+            <input class="form-control" placeholder="Apto, bloco..." ng-model="vm.newAddress.complement" />
+          </div>
+          <div class="flex gap-3">
+            <div class="form-group flex-1">
+              <label class="form-label">Bairro</label>
+              <input class="form-control" placeholder="Bairro" ng-model="vm.newAddress.neighborhood" />
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label">Cidade</label>
+              <input class="form-control" placeholder="Cidade" ng-model="vm.newAddress.city" />
+            </div>
+          </div>
+          <div class="flex gap-3">
+            <div class="form-group" style="width:100px">
+              <label class="form-label">Estado</label>
+              <input class="form-control" placeholder="UF" ng-model="vm.newAddress.state" maxlength="2" />
+            </div>
+            <div class="form-group flex-1">
+              <label class="form-label">Referência</label>
+              <input class="form-control" placeholder="Ex: perto do mercado" ng-model="vm.newAddress.reference_note" />
+            </div>
+          </div>
+          <button class="btn btn-outline-primary" ng-click="vm.createAddress()">
+            <i class="bi bi-plus-circle"></i> Salvar endereço
+          </button>
         </div>
       </div>
 
-      <div class="card-soft p-3 mb-3" ng-if="vm.orderForm.order_type === 'delivery'">
-        <h2 class="h6">Novo endereco</h2>
-        <div class="row g-2">
-          <div class="col-6"><input class="form-control" placeholder="CEP" ng-model="vm.newAddress.zip_code" /></div>
-          <div class="col-6"><input class="form-control" placeholder="Numero" ng-model="vm.newAddress.number" /></div>
-          <div class="col-12"><input class="form-control" placeholder="Rua" ng-model="vm.newAddress.street" /></div>
-          <div class="col-12"><input class="form-control" placeholder="Complemento" ng-model="vm.newAddress.complement" /></div>
-          <div class="col-6"><input class="form-control" placeholder="Bairro" ng-model="vm.newAddress.neighborhood" /></div>
-          <div class="col-6"><input class="form-control" placeholder="Cidade" ng-model="vm.newAddress.city" /></div>
-          <div class="col-6"><input class="form-control" placeholder="Estado" ng-model="vm.newAddress.state" /></div>
-          <div class="col-6"><input class="form-control" placeholder="Referencia" ng-model="vm.newAddress.reference_note" /></div>
-          <div class="col-12 d-grid"><button class="btn btn-outline-primary" ng-click="vm.createAddress()">Salvar endereco</button></div>
+      <!-- Payment -->
+      <div class="card-soft p-4">
+        <p class="checkout-section-title">Pagamento</p>
+        <div class="payment-method-grid">
+          <button class="payment-option" ng-class="{active: vm.orderForm.payment_method==='pix'}" ng-click="vm.orderForm.payment_method='pix'">
+            <i class="bi bi-qr-code"></i> Pix
+          </button>
+          <button class="payment-option" ng-class="{active: vm.orderForm.payment_method==='credit_card'}" ng-click="vm.orderForm.payment_method='credit_card'">
+            <i class="bi bi-credit-card"></i> Crédito
+          </button>
+          <button class="payment-option" ng-class="{active: vm.orderForm.payment_method==='debit_card'}" ng-click="vm.orderForm.payment_method='debit_card'">
+            <i class="bi bi-credit-card-2-front"></i> Débito
+          </button>
+          <button class="payment-option" ng-class="{active: vm.orderForm.payment_method==='cash'}" ng-click="vm.orderForm.payment_method='cash'">
+            <i class="bi bi-cash"></i> Dinheiro
+          </button>
+          <button class="payment-option" ng-class="{active: vm.orderForm.payment_method==='wallet'}" ng-click="vm.orderForm.payment_method='wallet'">
+            <i class="bi bi-wallet2"></i> Carteira
+          </button>
+        </div>
+        <div class="form-group mt-3">
+          <label class="form-label">Observações</label>
+          <textarea class="form-control" rows="2" placeholder="Alguma observação sobre o pedido?" ng-model="vm.orderForm.customer_notes"></textarea>
         </div>
       </div>
 
-      <div class="card-soft p-3">
-        <h2 class="h6">Pagamento</h2>
-        <select class="form-select mb-2" ng-model="vm.orderForm.payment_method">
-          <option value="pix">Pix</option>
-          <option value="credit_card">Cartao de credito</option>
-          <option value="debit_card">Cartao de debito</option>
-          <option value="cash">Dinheiro</option>
-          <option value="wallet">Carteira digital</option>
-        </select>
-        <textarea class="form-control" rows="3" placeholder="Observacoes do pedido" ng-model="vm.orderForm.customer_notes"></textarea>
-      </div>
     </div>
 
-    <div class="col-12 col-lg-4">
-      <div class="summary-box p-3 sticky-lg-top" style="top: 1rem;">
-        <h2 class="h6">Resumo</h2>
-        <div class="d-flex justify-content-between"><span>Itens</span><strong>{{vm.subtotal() | moneyBr}}</strong></div>
+    <!-- RIGHT: Summary -->
+    <div>
+      <div class="summary-box" style="position:sticky;top:calc(var(--header-h) + 12px)">
+        <p class="checkout-section-title">Resumo do pedido</p>
 
-        <div class="input-group mt-2 mb-2">
-          <input type="text" class="form-control" placeholder="Cupom" ng-model="vm.coupon" />
-          <button class="btn btn-outline-secondary" ng-click="vm.applyCoupon()">Aplicar</button>
+        <div class="summary-row">
+          <span>Itens</span>
+          <strong style="color:var(--c-text)">{{vm.subtotal() | moneyBr}}</strong>
         </div>
-        <small class="text-success" ng-if="vm.couponResult && vm.couponResult.valid">Cupom aplicado</small>
 
-        <button class="btn btn-primary w-100 mt-3" ng-click="vm.placeOrder()" ng-disabled="vm.placing">
+        <!-- Coupon -->
+        <div class="flex gap-2 mt-3">
+          <input type="text" class="form-control" placeholder="Código do cupom" ng-model="vm.coupon" style="flex:1" />
+          <button class="btn btn-ghost btn-sm shrink-0" ng-click="vm.applyCoupon()">
+            Aplicar
+          </button>
+        </div>
+        <p class="text-sm mt-1" style="color:var(--c-success)" ng-if="vm.couponResult && vm.couponResult.valid">
+          <i class="bi bi-check-circle-fill"></i> Cupom aplicado!
+        </p>
+
+        <div class="summary-row total mt-3">
+          <span>Total</span>
+          <strong style="color:var(--c-primary);font-size:1.125rem">{{vm.subtotal() | moneyBr}}</strong>
+        </div>
+
+        <button
+          class="btn btn-primary w-full"
+          style="margin-top:16px"
+          ng-click="vm.placeOrder()"
+          ng-disabled="vm.placing">
+          <i class="bi bi-bag-check" ng-if="!vm.placing"></i>
+          <i class="bi bi-arrow-repeat" ng-if="vm.placing"></i>
           {{ vm.placing ? 'Finalizando...' : 'Finalizar pedido' }}
         </button>
       </div>
     </div>
+
   </div>
+
 </section>
+
+<style>
+  @media (min-width: 768px) {
+    .checkout-grid {
+      grid-template-columns: 1fr 360px;
+    }
+  }
+
+</style>

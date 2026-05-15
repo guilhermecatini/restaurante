@@ -1,26 +1,44 @@
-<section class="hero mt-3">
-  <div class="hero-card p-3 p-md-4">
-    <p class="hero-eyebrow mb-2">Entrega em ate 45 min</p>
-    <h1 class="h4 mb-1">Seu pedido favorito, sem fila.</h1>
-    <p class="text-muted mb-0">Explore restaurantes perto de voce e monte seu pedido em poucos toques.</p>
+<!-- Hero -->
+<section class="hero-section">
+  <div class="hero-card animate-slide-up">
+    <div class="hero-eyebrow">
+      <i class="bi bi-lightning-charge-fill"></i>
+      Entrega em até 45 min
+    </div>
+    <h1 class="hero-title">Seu favorito,<br>sem espera.</h1>
+    <p class="hero-subtitle">Explore restaurantes perto de você e monte seu pedido em segundos.</p>
   </div>
 </section>
 
-<section class="mt-4">
-  <div class="d-flex justify-content-between align-items-center mb-2">
-    <h2 class="section-title mb-0">Destaques</h2>
-    <a ui-sref="app.restaurants" class="small text-decoration-none">Ver todos</a>
+<!-- Featured Restaurants -->
+<section class="page-section mt-6">
+
+  <div class="flex items-center justify-between mb-3">
+    <h2 class="section-title">Destaques</h2>
+    <a ui-sref="app.restaurants" class="text-sm font-semibold" style="color:var(--c-primary)">
+      Ver todos <i class="bi bi-arrow-right"></i>
+    </a>
   </div>
 
-  <div class="row g-3" ng-if="!vm.loading">
-    <div class="col-12 col-md-6" ng-repeat="restaurant in vm.featured track by restaurant.id">
-      <restaurant-card restaurant="restaurant" on-open="vm.openRestaurant(restaurant)"></restaurant-card>
-    </div>
+  <!-- Loading skeletons -->
+  <div class="row" ng-if="vm.loading">
+    <skeleton-card ng-repeat="i in [1,2,3,4] track by $index"></skeleton-card>
   </div>
 
-  <div class="row g-3" ng-if="vm.loading">
-    <div class="col-12 col-md-6" ng-repeat="i in [1,2,3,4] track by $index">
-      <skeleton-card></skeleton-card>
-    </div>
+  <!-- Restaurant cards -->
+  <div class="row" ng-if="!vm.loading">
+    <restaurant-card
+      ng-repeat="restaurant in vm.featured track by restaurant.id"
+      restaurant="restaurant"
+      on-open="vm.openRestaurant(restaurant)">
+    </restaurant-card>
   </div>
+
+  <!-- Empty state -->
+  <div class="empty-state" ng-if="!vm.loading && !vm.featured.length">
+    <i class="bi bi-shop"></i>
+    <p>Nenhum restaurante disponível</p>
+    <small>Tente novamente mais tarde.</small>
+  </div>
+
 </section>

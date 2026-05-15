@@ -1,10 +1,18 @@
-<div class="auth-shell container-fluid">
-  <div class="row justify-content-center">
-    <div class="col-12 col-sm-10 col-md-8 col-lg-5">
-      <div class="auth-card mt-4 mt-md-5 p-4">
-        <a ui-sref="app.storefront" class="small text-decoration-none d-inline-block mb-3">&larr; Voltar</a>
-        <div ui-view></div>
-      </div>
+<div class="auth-shell">
+
+  <div class="auth-header">
+    <div class="auth-logo">
+      <i class="bi bi-shop"></i>
     </div>
+    <div class="auth-brand-name">Restaurante App</div>
   </div>
+
+  <div class="auth-card animate-slide-up">
+    <a ui-sref="app.storefront" class="auth-back">
+      <i class="bi bi-arrow-left"></i>
+      Voltar para loja
+    </a>
+    <div ui-view></div>
+  </div>
+
 </div>
