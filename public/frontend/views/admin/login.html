@@ -1,0 +1,38 @@
+﻿<div class="adm-login-page">
+  <div class="adm-login-card">
+    <div class="adm-login-brand">
+      <div class="adm-login-icon"><i class="bi bi-shop"></i></div>
+      <h1 class="adm-login-title">Backoffice</h1>
+      <p class="adm-login-sub">Entre para gerenciar seu restaurante</p>
+    </div>
+
+    <form ng-submit="vm.login()" novalidate>
+      <div class="adm-form-group">
+        <label class="adm-label" for="adm-email">E-mail</label>
+        <input id="adm-email" class="adm-input" type="email"
+               ng-model="vm.form.email" placeholder="seu@email.com"
+               required autocomplete="email" />
+      </div>
+      <div class="adm-form-group">
+        <label class="adm-label" for="adm-pwd">Senha</label>
+        <input id="adm-pwd" class="adm-input" type="password"
+               ng-model="vm.form.password" placeholder="••••••••"
+               required autocomplete="current-password" />
+      </div>
+
+      <div class="adm-login-error" ng-if="vm.error">
+        <i class="bi bi-exclamation-circle"></i> {{vm.error}}
+      </div>
+
+      <button type="submit" class="adm-btn adm-btn-primary" style="width:100%;margin-top:8px"
+              ng-disabled="vm.loading">
+        <span ng-if="!vm.loading">Entrar</span>
+        <span ng-if="vm.loading"><i class="bi bi-arrow-repeat adm-spin"></i> Entrando…</span>
+      </button>
+    </form>
+
+    <p style="text-align:center;margin-top:24px;font-size:13px;color:var(--adm-muted)">
+      <a href="/" style="color:var(--adm-accent)">Voltar à loja</a>
+    </p>
+  </div>
+</div>

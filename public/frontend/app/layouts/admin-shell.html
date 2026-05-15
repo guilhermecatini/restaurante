@@ -1,0 +1,115 @@
+﻿<div class="adm-layout" ng-class="{'sidebar-open': vm.sidebarOpen}">
+
+  <!-- Mobile overlay -->
+  <div class="adm-sidebar-overlay" ng-class="{visible: vm.sidebarOpen}" ng-click="vm.closeSidebar()"></div>
+
+  <!-- ==================== SIDEBAR ==================== -->
+  <aside class="adm-sidebar" ng-class="{open: vm.sidebarOpen}">
+
+    <!-- Brand / Restaurant -->
+    <div class="adm-sidebar-brand">
+      <div class="adm-sidebar-brand-icon">
+        <i class="bi bi-shop"></i>
+      </div>
+      <div class="adm-sidebar-brand-text">
+        <div class="adm-sidebar-brand-name">{{vm.restaurant.trade_name || 'Backoffice'}}</div>
+        <div class="adm-sidebar-brand-sub">Painel Administrativo</div>
+      </div>
+    </div>
+
+    <!-- Restaurant open/close toggle -->
+    <div class="adm-sidebar-status" style="margin-top:10px">
+      <span class="adm-sidebar-status-label">
+        <span class="adm-sidebar-status-dot" ng-class="vm.restaurant.is_open ? 'open' : 'closed'"></span>
+        {{vm.restaurant.is_open ? 'Loja aberta' : 'Loja fechada'}}
+      </span>
+      <button class="adm-sidebar-toggle" ng-click="vm.toggleStatus()" title="Abrir/fechar loja">
+        <i class="bi bi-power"></i>
+      </button>
+    </div>
+
+    <!-- Nav: Principal -->
+    <nav class="adm-sidebar-section">
+      <div class="adm-sidebar-label">Principal</div>
+      <a class="adm-nav-item" ui-sref="admin.dashboard" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-grid-1x2"></i> Dashboard
+      </a>
+      <a class="adm-nav-item" ui-sref="admin.orders" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-receipt"></i> Pedidos
+        <span class="adm-nav-badge" ng-if="vm.pendingOrders > 0">{{vm.pendingOrders}}</span>
+      </a>
+    </nav>
+
+    <!-- Nav: Cardápio -->
+    <nav class="adm-sidebar-section">
+      <div class="adm-sidebar-label">Cardápio</div>
+      <a class="adm-nav-item" ui-sref="admin.products" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-bag"></i> Produtos
+      </a>
+      <a class="adm-nav-item" ui-sref="admin.categories" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-tags"></i> Categorias
+      </a>
+    </nav>
+
+    <!-- Nav: Marketing -->
+    <nav class="adm-sidebar-section">
+      <div class="adm-sidebar-label">Marketing</div>
+      <a class="adm-nav-item" ui-sref="admin.coupons" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-ticket-perforated"></i> Cupons
+      </a>
+    </nav>
+
+    <!-- Nav: Administração -->
+    <nav class="adm-sidebar-section">
+      <div class="adm-sidebar-label">Administração</div>
+      <a class="adm-nav-item" ui-sref="admin.settings" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-gear"></i> Configurações
+      </a>
+      <a class="adm-nav-item" ui-sref="admin.team" ui-sref-active="active" ng-click="vm.closeSidebar()">
+        <i class="bi bi-people"></i> Equipe
+      </a>
+    </nav>
+
+    <!-- Footer: User -->
+    <div class="adm-sidebar-footer">
+      <div class="adm-sidebar-user" ng-click="vm.showUserMenu = !vm.showUserMenu">
+        <div class="adm-sidebar-avatar">{{vm.userInitial}}</div>
+        <div class="adm-flex-col" style="min-width:0;flex:1">
+          <div class="adm-sidebar-user-name">{{vm.user.name || vm.user.email}}</div>
+          <div class="adm-sidebar-user-role">{{vm.roleLabel}}</div>
+        </div>
+        <button class="adm-sidebar-toggle" ng-click="vm.logout(); $event.stopPropagation()" title="Sair">
+          <i class="bi bi-box-arrow-right"></i>
+        </button>
+      </div>
+    </div>
+
+  </aside>
+
+  <!-- ==================== CONTENT ==================== -->
+  <div class="adm-content">
+
+    <!-- Top bar -->
+    <header class="adm-topbar">
+      <button class="adm-topbar-hamburger" ng-click="vm.toggleSidebar()">
+        <i class="bi bi-list"></i>
+      </button>
+      <nav class="adm-topbar-breadcrumb">
+        <span>Admin</span>
+        <i class="bi bi-chevron-right"></i>
+        <span class="current">{{vm.pageTitle}}</span>
+      </nav>
+      <div class="adm-topbar-actions">
+        <a href="/" target="_blank" class="adm-btn adm-btn-ghost adm-btn-sm" title="Ver loja ao vivo">
+          <i class="bi bi-box-arrow-up-right"></i> Ver loja
+        </a>
+      </div>
+    </header>
+
+    <!-- Router view -->
+    <main class="adm-main">
+      <div ui-view></div>
+    </main>
+
+  </div>
+</div>

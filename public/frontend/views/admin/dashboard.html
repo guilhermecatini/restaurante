@@ -1,0 +1,114 @@
+﻿<div class="adm-page">
+
+  <!-- Header -->
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Dashboard</h1>
+      <p class="adm-page-sub">Visão geral do seu restaurante</p>
+    </div>
+    <div class="adm-page-header-actions">
+      <div class="adm-period-tabs">
+        <button class="adm-period-tab" ng-class="{active: vm.period=='1d'}" ng-click="vm.selectPeriod('1d')">Hoje</button>
+        <button class="adm-period-tab" ng-class="{active: vm.period=='7d'}" ng-click="vm.selectPeriod('7d')">7 dias</button>
+        <button class="adm-period-tab" ng-class="{active: vm.period=='30d'}" ng-click="vm.selectPeriod('30d')">30 dias</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Skeleton loading -->
+  <div ng-if="vm.loading">
+    <div class="adm-stats-grid">
+      <div class="adm-skel adm-skel-card" ng-repeat="i in [1,2,3,4]"></div>
+    </div>
+  </div>
+
+  <!-- Stats grid -->
+  <div ng-if="!vm.loading" class="adm-stats-grid">
+    <div class="adm-stat-card">
+      <div class="adm-stat-icon adm-stat-icon--blue"><i class="bi bi-receipt"></i></div>
+      <div class="adm-stat-info">
+        <div class="adm-stat-value">{{vm.summary.total_orders || 0}}</div>
+        <div class="adm-stat-label">Pedidos (período)</div>
+      </div>
+    </div>
+    <div class="adm-stat-card">
+      <div class="adm-stat-icon adm-stat-icon--yellow"><i class="bi bi-hourglass-split"></i></div>
+      <div class="adm-stat-info">
+        <div class="adm-stat-value">{{vm.summary.pending_orders || 0}}</div>
+        <div class="adm-stat-label">Pendentes agora</div>
+      </div>
+    </div>
+    <div class="adm-stat-card">
+      <div class="adm-stat-icon adm-stat-icon--green"><i class="bi bi-check-circle"></i></div>
+      <div class="adm-stat-info">
+        <div class="adm-stat-value">{{vm.summary.delivered_orders || 0}}</div>
+        <div class="adm-stat-label">Entregues</div>
+      </div>
+    </div>
+    <div class="adm-stat-card">
+      <div class="adm-stat-icon adm-stat-icon--red"><i class="bi bi-currency-dollar"></i></div>
+      <div class="adm-stat-info">
+        <div class="adm-stat-value">R$ {{(vm.summary.total_revenue || 0) | number:2}}</div>
+        <div class="adm-stat-label">Receita (período)</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Body grid: top products + quick actions -->
+  <div ng-if="!vm.loading" class="adm-dash-grid">
+
+    <!-- Top produtos -->
+    <div class="adm-card">
+      <div class="adm-card-header">
+        <span class="adm-card-title">Produtos mais pedidos</span>
+        <a class="adm-btn adm-btn-ghost adm-btn-sm" ui-sref="admin.products">Ver todos</a>
+      </div>
+      <div class="adm-empty" ng-if="!vm.topProducts.length">
+        <i class="bi bi-bar-chart adm-empty-icon"></i>
+        <p>Nenhum dado disponível ainda</p>
+      </div>
+      <div ng-if="vm.topProducts.length">
+        <div class="adm-rank-item" ng-repeat="item in vm.topProducts">
+          <div class="adm-rank-pos">{{$index + 1}}</div>
+          <div class="adm-rank-img" ng-if="item.image_url">
+            <img ng-src="{{item.image_url}}" alt="{{item.name}}" />
+          </div>
+          <div class="adm-rank-img adm-rank-img--placeholder" ng-if="!item.image_url">
+            <i class="bi bi-bag"></i>
+          </div>
+          <div class="adm-rank-info">
+            <div class="adm-rank-name">{{item.name}}</div>
+            <div class="adm-rank-meta">{{item.total_ordered || 0}} pedidos</div>
+          </div>
+          <div class="adm-rank-value">R$ {{(item.revenue || 0) | number:2}}</div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Ações rápidas -->
+    <div class="adm-card">
+      <div class="adm-card-header">
+        <span class="adm-card-title">Ações rápidas</span>
+      </div>
+      <div class="adm-quick-actions">
+        <a class="adm-quick-action" ui-sref="admin.orders({status:'pending'})">
+          <i class="bi bi-receipt"></i>
+          <span>Ver pendentes</span>
+        </a>
+        <a class="adm-quick-action" ui-sref="admin.products">
+          <i class="bi bi-plus-circle"></i>
+          <span>Novo produto</span>
+        </a>
+        <a class="adm-quick-action" ui-sref="admin.coupons">
+          <i class="bi bi-ticket-perforated"></i>
+          <span>Criar cupom</span>
+        </a>
+        <a class="adm-quick-action" ui-sref="admin.settings">
+          <i class="bi bi-gear"></i>
+          <span>Configurações</span>
+        </a>
+      </div>
+    </div>
+
+  </div>
+</div>

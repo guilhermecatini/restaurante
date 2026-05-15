@@ -1,0 +1,100 @@
+﻿<div class="adm-page">
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Categorias</h1>
+      <p class="adm-page-sub">Organize seu cardápio em categorias</p>
+    </div>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">
+      <i class="bi bi-plus-lg"></i> Nova categoria
+    </button>
+  </div>
+
+  <div ng-if="vm.loading" class="adm-empty"><i class="bi bi-arrow-repeat adm-spin adm-empty-icon"></i></div>
+
+  <div ng-if="!vm.loading && !vm.categories.length" class="adm-empty">
+    <i class="bi bi-tags adm-empty-icon"></i>
+    <p>Nenhuma categoria criada</p>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">Criar primeira categoria</button>
+  </div>
+
+  <div ng-if="!vm.loading && vm.categories.length" class="adm-card">
+    <table class="adm-table">
+      <thead>
+        <tr>
+          <th style="width:40px">Ordem</th>
+          <th>Nome</th>
+          <th>Descrição</th>
+          <th style="width:80px">Status</th>
+          <th style="width:100px"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="cat in vm.categories">
+          <td>
+            <div style="display:flex;gap:4px">
+              <button class="adm-btn adm-btn-ghost adm-btn-sm" ng-click="vm.moveUp($index)" ng-disabled="$index==0" title="Mover para cima">
+                <i class="bi bi-chevron-up"></i>
+              </button>
+              <button class="adm-btn adm-btn-ghost adm-btn-sm" ng-click="vm.moveDown($index)" ng-disabled="$last" title="Mover para baixo">
+                <i class="bi bi-chevron-down"></i>
+              </button>
+            </div>
+          </td>
+          <td><strong>{{cat.name}}</strong></td>
+          <td class="adm-muted">{{cat.description || '—'}}</td>
+          <td>
+            <span class="adm-badge" ng-class="cat.is_active ? 'adm-badge-success' : 'adm-badge-neutral'">
+              {{cat.is_active ? 'Ativa' : 'Inativa'}}
+            </span>
+          </td>
+          <td>
+            <div style="display:flex;gap:6px">
+              <button class="adm-btn adm-btn-ghost adm-btn-sm" ng-click="vm.openEdit(cat)" title="Editar">
+                <i class="bi bi-pencil"></i>
+              </button>
+              <button class="adm-btn adm-btn-danger adm-btn-sm" ng-click="vm.deleteCategory(cat)" title="Excluir">
+                <i class="bi bi-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="adm-overlay" ng-if="vm.modal" ng-click="vm.closeModal()">
+  <div class="adm-modal" ng-click="$event.stopPropagation()">
+    <div class="adm-modal-header">
+      <h3 class="adm-modal-title">{{vm.editMode ? 'Editar categoria' : 'Nova categoria'}}</h3>
+      <button class="adm-modal-close" ng-click="vm.closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="adm-modal-body">
+      <form ng-submit="vm.save()" novalidate>
+        <div class="adm-form-group">
+          <label class="adm-label">Nome *</label>
+          <input class="adm-input" type="text" ng-model="vm.form.name" required placeholder="Ex: Lanches" />
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Descrição</label>
+          <input class="adm-input" type="text" ng-model="vm.form.description" placeholder="Opcional" />
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Ativa</label>
+          <label class="adm-toggle" style="margin-top:8px">
+            <input type="checkbox" ng-model="vm.form.is_active" />
+            <span class="adm-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="adm-modal-footer">
+          <button type="button" class="adm-btn adm-btn-ghost" ng-click="vm.closeModal()">Cancelar</button>
+          <button type="submit" class="adm-btn adm-btn-primary" ng-disabled="vm.saving">
+            <span ng-if="!vm.saving">{{vm.editMode ? 'Salvar' : 'Criar'}}</span>
+            <span ng-if="vm.saving"><i class="bi bi-arrow-repeat adm-spin"></i></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

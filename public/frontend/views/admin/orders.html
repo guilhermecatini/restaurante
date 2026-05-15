@@ -1,0 +1,143 @@
+﻿<div class="adm-page">
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Pedidos</h1>
+      <p class="adm-page-sub">Gerencie os pedidos em tempo real</p>
+    </div>
+  </div>
+
+  <!-- Status filter tabs -->
+  <div class="adm-filter-tabs" style="margin-bottom:16px">
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status==''}" ng-click="vm.filterByStatus('')">Todos</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='pending'}" ng-click="vm.filterByStatus('pending')">Aguardando</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='confirmed'}" ng-click="vm.filterByStatus('confirmed')">Confirmado</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='preparing'}" ng-click="vm.filterByStatus('preparing')">Preparando</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='ready'}" ng-click="vm.filterByStatus('ready')">Pronto</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='out_for_delivery'}" ng-click="vm.filterByStatus('out_for_delivery')">Em entrega</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='delivered'}" ng-click="vm.filterByStatus('delivered')">Entregue</button>
+    <button class="adm-filter-tab" ng-class="{active: vm.filters.status=='cancelled'}" ng-click="vm.filterByStatus('cancelled')">Cancelado</button>
+  </div>
+
+  <div class="adm-orders-layout">
+    <!-- Orders list panel -->
+    <div class="adm-orders-list">
+      <div ng-if="vm.loading" class="adm-loading-state">
+        <div class="adm-skel adm-skel-row" ng-repeat="i in [1,2,3,4,5,6]"></div>
+      </div>
+
+      <div ng-if="!vm.loading && !vm.orders.length" class="adm-empty">
+        <i class="bi bi-receipt adm-empty-icon"></i>
+        <p>Nenhum pedido encontrado</p>
+      </div>
+
+      <div ng-if="!vm.loading && vm.orders.length">
+        <div class="adm-order-row"
+             ng-repeat="order in vm.orders"
+             ng-class="{active: vm.selectedOrder && vm.selectedOrder.id == order.id}"
+             ng-click="vm.selectOrder(order)">
+          <div class="adm-order-row-header">
+            <span class="adm-order-num">#{{order.id}}</span>
+            <span class="adm-badge adm-badge-{{order.status}}">{{vm.statusLabel(order.status)}}</span>
+          </div>
+          <div class="adm-order-row-body">
+            <span class="adm-order-customer">{{order.customer_name || order.customer_email || 'Cliente'}}</span>
+            <span class="adm-order-total">R$ {{(order.total || 0) | number:2}}</span>
+          </div>
+          <div class="adm-order-row-footer">
+            <span class="adm-order-time">{{order.created_at | date:'dd/MM HH:mm'}}</span>
+            <div class="adm-order-row-actions" ng-click="$event.stopPropagation()">
+              <button class="adm-btn adm-btn-primary adm-btn-sm"
+                      ng-if="vm.nextStatus(order.status)"
+                      ng-click="vm.advanceStatus(order)">
+                Avançar
+              </button>
+              <button class="adm-btn adm-btn-danger adm-btn-sm"
+                      ng-if="order.status != 'delivered' && order.status != 'cancelled'"
+                      ng-click="vm.cancelOrder(order)">
+                Cancelar
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <!-- Pagination -->
+        <div class="adm-pagination" ng-if="vm.totalPages > 1">
+          <button class="adm-pagination-btn" ng-click="vm.prevPage()" ng-disabled="vm.filters.page<=1">
+            <i class="bi bi-chevron-left"></i>
+          </button>
+          <span class="adm-pagination-info">{{vm.filters.page}} / {{vm.totalPages}}</span>
+          <button class="adm-pagination-btn" ng-click="vm.nextPage()" ng-disabled="vm.filters.page>=vm.totalPages">
+            <i class="bi bi-chevron-right"></i>
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Order detail panel -->
+    <div class="adm-detail-panel" ng-if="!vm.selectedOrder">
+      <div class="adm-empty">
+        <i class="bi bi-receipt adm-empty-icon"></i>
+        <p>Selecione um pedido para ver os detalhes</p>
+      </div>
+    </div>
+
+    <div class="adm-detail-panel" ng-if="vm.selectedOrder">
+      <div ng-if="vm.detailLoading" class="adm-loading-state">
+        <div class="adm-skel adm-skel-row" ng-repeat="i in [1,2,3]"></div>
+      </div>
+
+      <div ng-if="!vm.detailLoading">
+        <div class="adm-detail-header">
+          <h2 class="adm-detail-title">Pedido #{{vm.selectedOrder.id}}</h2>
+          <span class="adm-badge adm-badge-{{vm.selectedOrder.status}}">
+            {{vm.statusLabel(vm.selectedOrder.status)}}
+          </span>
+        </div>
+
+        <!-- Customer info -->
+        <div class="adm-detail-section">
+          <div class="adm-detail-section-title">Cliente</div>
+          <div class="adm-detail-row"><span>Nome:</span><strong>{{vm.selectedOrder.customer_name || '—'}}</strong></div>
+          <div class="adm-detail-row"><span>Telefone:</span><strong>{{vm.selectedOrder.customer_phone || '—'}}</strong></div>
+          <div class="adm-detail-row" ng-if="vm.selectedOrder.delivery_address"><span>Endereço:</span><strong>{{vm.selectedOrder.delivery_address}}</strong></div>
+        </div>
+
+        <!-- Items -->
+        <div class="adm-detail-section">
+          <div class="adm-detail-section-title">Itens</div>
+          <div class="adm-order-item" ng-repeat="item in vm.selectedOrder.items">
+            <span class="adm-order-item-qty">{{item.quantity}}x</span>
+            <span class="adm-order-item-name">{{item.product_name || item.name}}</span>
+            <span class="adm-order-item-price">R$ {{((item.unit_price || item.price) * item.quantity) | number:2}}</span>
+          </div>
+        </div>
+
+        <!-- Totals -->
+        <div class="adm-detail-section">
+          <div class="adm-detail-row"><span>Subtotal:</span><strong>R$ {{(vm.selectedOrder.subtotal || 0) | number:2}}</strong></div>
+          <div class="adm-detail-row" ng-if="vm.selectedOrder.delivery_fee"><span>Taxa de entrega:</span><strong>R$ {{(vm.selectedOrder.delivery_fee || 0) | number:2}}</strong></div>
+          <div class="adm-detail-row" ng-if="vm.selectedOrder.discount"><span>Desconto:</span><strong>- R$ {{(vm.selectedOrder.discount || 0) | number:2}}</strong></div>
+          <div class="adm-detail-row adm-detail-row--total"><span>Total:</span><strong>R$ {{(vm.selectedOrder.total || 0) | number:2}}</strong></div>
+        </div>
+
+        <!-- Notes -->
+        <div class="adm-detail-section" ng-if="vm.selectedOrder.notes">
+          <div class="adm-detail-section-title">Observações</div>
+          <p class="adm-detail-notes">{{vm.selectedOrder.notes}}</p>
+        </div>
+
+        <!-- Actions -->
+        <div class="adm-detail-actions" ng-if="vm.selectedOrder.status != 'delivered' && vm.selectedOrder.status != 'cancelled'">
+          <button class="adm-btn adm-btn-primary"
+                  ng-if="vm.nextStatus(vm.selectedOrder.status)"
+                  ng-click="vm.advanceStatus(vm.selectedOrder)">
+            Avançar para: {{vm.statusLabel(vm.nextStatus(vm.selectedOrder.status))}}
+          </button>
+          <button class="adm-btn adm-btn-danger" ng-click="vm.cancelOrder(vm.selectedOrder)">
+            Cancelar pedido
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

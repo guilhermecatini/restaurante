@@ -1,0 +1,99 @@
+﻿<div class="adm-page">
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Equipe</h1>
+      <p class="adm-page-sub">Gerencie os membros da sua equipe</p>
+    </div>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openInvite()">
+      <i class="bi bi-person-plus"></i> Convidar membro
+    </button>
+  </div>
+
+  <div ng-if="vm.loading" class="adm-empty"><i class="bi bi-arrow-repeat adm-spin adm-empty-icon"></i></div>
+
+  <div ng-if="!vm.loading && !vm.members.length" class="adm-empty">
+    <i class="bi bi-people adm-empty-icon"></i>
+    <p>Nenhum membro na equipe</p>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openInvite()">Convidar primeiro membro</button>
+  </div>
+
+  <div ng-if="!vm.loading && vm.members.length" class="adm-card">
+    <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th>Membro</th>
+            <th>E-mail</th>
+            <th style="width:220px">Cargo</th>
+            <th style="width:120px">Desde</th>
+            <th style="width:60px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="member in vm.members">
+            <td>
+              <div style="display:flex;align-items:center;gap:10px">
+                <div class="adm-avatar-sm">{{(member.name || member.email || 'U').charAt(0).toUpperCase()}}</div>
+                <span>{{member.name || '—'}}</span>
+                <span class="adm-badge adm-badge-neutral" ng-if="vm.isSelf(member)">Você</span>
+              </div>
+            </td>
+            <td class="adm-muted">{{member.email}}</td>
+            <td>
+              <select class="adm-select adm-select-sm"
+                      ng-model="member.role"
+                      ng-change="vm.changeRole(member)"
+                      ng-disabled="vm.isSelf(member)">
+                <option ng-repeat="r in vm.roleOptions" value="{{r.value}}">{{r.label}}</option>
+              </select>
+            </td>
+            <td class="adm-muted">{{member.created_at | date:'dd/MM/yyyy'}}</td>
+            <td>
+              <button class="adm-btn adm-btn-danger adm-btn-sm"
+                      ng-if="!vm.isSelf(member)"
+                      ng-click="vm.removeMember(member)"
+                      title="Remover">
+                <i class="bi bi-person-x"></i>
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- Modal: Invite -->
+<div class="adm-overlay" ng-if="vm.modal" ng-click="vm.closeModal()">
+  <div class="adm-modal" ng-click="$event.stopPropagation()">
+    <div class="adm-modal-header">
+      <h3 class="adm-modal-title">Convidar membro</h3>
+      <button class="adm-modal-close" ng-click="vm.closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="adm-modal-body">
+      <form ng-submit="vm.invite()" novalidate>
+        <div class="adm-form-group">
+          <label class="adm-label">E-mail *</label>
+          <input class="adm-input" type="email" ng-model="vm.inviteForm.email" required
+                 placeholder="email@exemplo.com" autocomplete="off" />
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Cargo *</label>
+          <select class="adm-select" ng-model="vm.inviteForm.role" required>
+            <option ng-repeat="r in vm.roleOptions" value="{{r.value}}">{{r.label}}</option>
+          </select>
+        </div>
+        <p class="adm-muted" style="font-size:13px;margin-top:4px">
+          Um convite será enviado para o e-mail informado.
+        </p>
+        <div class="adm-modal-footer">
+          <button type="button" class="adm-btn adm-btn-ghost" ng-click="vm.closeModal()">Cancelar</button>
+          <button type="submit" class="adm-btn adm-btn-primary" ng-disabled="vm.saving">
+            <span ng-if="!vm.saving"><i class="bi bi-send"></i> Enviar convite</span>
+            <span ng-if="vm.saving"><i class="bi bi-arrow-repeat adm-spin"></i></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

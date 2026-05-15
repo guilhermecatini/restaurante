@@ -9,6 +9,7 @@
       'deliveryApp.core',
       'deliveryApp.auth',
       'deliveryApp.customer',
+      'deliveryApp.admin',
     ])
     .config(config)
     .run(run);

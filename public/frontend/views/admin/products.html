@@ -1,0 +1,136 @@
+﻿<div class="adm-page">
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Produtos</h1>
+      <p class="adm-page-sub">Gerencie seu cardápio</p>
+    </div>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">
+      <i class="bi bi-plus-lg"></i> Novo produto
+    </button>
+  </div>
+
+  <!-- Filters -->
+  <div class="adm-toolbar">
+    <div class="adm-search-wrap">
+      <i class="bi bi-search adm-search-icon"></i>
+      <input class="adm-input adm-search-input" type="text" placeholder="Buscar produto…"
+             ng-model="vm.filters.q" ng-keyup="$event.keyCode==13 && vm.search()" />
+    </div>
+    <select class="adm-select" ng-model="vm.filters.categoryId" ng-change="vm.filterCategory(vm.filters.categoryId)">
+      <option value="">Todas as categorias</option>
+      <option ng-repeat="cat in vm.categories" value="{{cat.id}}">{{cat.name}}</option>
+    </select>
+    <button class="adm-btn adm-btn-secondary" ng-click="vm.search()">
+      <i class="bi bi-funnel"></i> Filtrar
+    </button>
+  </div>
+
+  <!-- Loading skeleton -->
+  <div ng-if="vm.loading" class="adm-products-grid">
+    <div class="adm-product-card adm-skel" ng-repeat="i in [1,2,3,4,5,6]" style="height:220px"></div>
+  </div>
+
+  <!-- Empty state -->
+  <div ng-if="!vm.loading && !vm.products.length" class="adm-empty">
+    <i class="bi bi-bag adm-empty-icon"></i>
+    <p>Nenhum produto encontrado</p>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">Adicionar primeiro produto</button>
+  </div>
+
+  <!-- Products grid -->
+  <div ng-if="!vm.loading && vm.products.length" class="adm-products-grid">
+    <div class="adm-product-card" ng-repeat="product in vm.products">
+      <div class="adm-product-img" ng-if="product.image_url">
+        <img ng-src="{{product.image_url}}" alt="{{product.name}}" />
+      </div>
+      <div class="adm-product-img adm-product-img--placeholder" ng-if="!product.image_url">
+        <i class="bi bi-bag"></i>
+      </div>
+      <div class="adm-product-body">
+        <div class="adm-product-header">
+          <span class="adm-product-name">{{product.name}}</span>
+          <label class="adm-toggle" title="Ativo/inativo">
+            <input type="checkbox" ng-model="product.is_available" ng-change="vm.toggleStatus(product)" />
+            <span class="adm-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="adm-product-cat" ng-if="product.category_name">{{product.category_name}}</div>
+        <div class="adm-product-price">R$ {{(product.price || 0) | number:2}}</div>
+      </div>
+      <div class="adm-product-actions">
+        <button class="adm-btn adm-btn-ghost adm-btn-sm" ng-click="vm.openEdit(product)">
+          <i class="bi bi-pencil"></i> Editar
+        </button>
+        <button class="adm-btn adm-btn-danger adm-btn-sm" ng-click="vm.deleteProduct(product)">
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- Pagination -->
+  <div class="adm-pagination" ng-if="vm.totalPages > 1">
+    <button class="adm-pagination-btn" ng-click="vm.prevPage()" ng-disabled="vm.filters.page<=1">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <span class="adm-pagination-info">{{vm.filters.page}} / {{vm.totalPages}}</span>
+    <button class="adm-pagination-btn" ng-click="vm.nextPage()" ng-disabled="vm.filters.page>=vm.totalPages">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Modal: Create/Edit Product -->
+<div class="adm-overlay" ng-if="vm.modal" ng-click="vm.closeModal()">
+  <div class="adm-modal" ng-click="$event.stopPropagation()">
+    <div class="adm-modal-header">
+      <h3 class="adm-modal-title">{{vm.editMode ? 'Editar produto' : 'Novo produto'}}</h3>
+      <button class="adm-modal-close" ng-click="vm.closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="adm-modal-body">
+      <form ng-submit="vm.save()" novalidate>
+        <div class="adm-form-row">
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Nome *</label>
+            <input class="adm-input" type="text" ng-model="vm.form.name" required placeholder="Nome do produto" />
+          </div>
+          <div class="adm-form-group" style="width:160px">
+            <label class="adm-label">Preço (R$) *</label>
+            <input class="adm-input" type="number" step="0.01" min="0" ng-model="vm.form.price" required placeholder="0,00" />
+          </div>
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Descrição</label>
+          <textarea class="adm-textarea" ng-model="vm.form.description" rows="3" placeholder="Descrição do produto"></textarea>
+        </div>
+        <div class="adm-form-row">
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Categoria</label>
+            <select class="adm-select" ng-model="vm.form.category_id">
+              <option value="">Sem categoria</option>
+              <option ng-repeat="cat in vm.categories" value="{{cat.id}}">{{cat.name}}</option>
+            </select>
+          </div>
+          <div class="adm-form-group" style="width:160px">
+            <label class="adm-label">Disponível</label>
+            <label class="adm-toggle" style="margin-top:10px">
+              <input type="checkbox" ng-model="vm.form.is_available" />
+              <span class="adm-toggle-slider"></span>
+            </label>
+          </div>
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">URL da imagem</label>
+          <input class="adm-input" type="url" ng-model="vm.form.image_url" placeholder="https://…" />
+        </div>
+        <div class="adm-modal-footer">
+          <button type="button" class="adm-btn adm-btn-ghost" ng-click="vm.closeModal()">Cancelar</button>
+          <button type="submit" class="adm-btn adm-btn-primary" ng-disabled="vm.saving">
+            <span ng-if="!vm.saving">{{vm.editMode ? 'Salvar' : 'Criar'}}</span>
+            <span ng-if="vm.saving"><i class="bi bi-arrow-repeat adm-spin"></i></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>

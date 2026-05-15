@@ -1,0 +1,139 @@
+﻿<div class="adm-page">
+  <div class="adm-page-header">
+    <div>
+      <h1 class="adm-page-title">Cupons</h1>
+      <p class="adm-page-sub">Crie e gerencie cupons de desconto</p>
+    </div>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">
+      <i class="bi bi-plus-lg"></i> Novo cupom
+    </button>
+  </div>
+
+  <div ng-if="vm.loading" class="adm-empty"><i class="bi bi-arrow-repeat adm-spin adm-empty-icon"></i></div>
+
+  <div ng-if="!vm.loading && !vm.coupons.length" class="adm-empty">
+    <i class="bi bi-ticket-perforated adm-empty-icon"></i>
+    <p>Nenhum cupom cadastrado</p>
+    <button class="adm-btn adm-btn-primary" ng-click="vm.openCreate()">Criar primeiro cupom</button>
+  </div>
+
+  <div ng-if="!vm.loading && vm.coupons.length" class="adm-card">
+    <div class="adm-table-wrap">
+      <table class="adm-table">
+        <thead>
+          <tr>
+            <th>Código</th>
+            <th>Tipo</th>
+            <th>Valor</th>
+            <th>Pedido mín.</th>
+            <th>Usos</th>
+            <th>Validade</th>
+            <th>Status</th>
+            <th style="width:80px"></th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr ng-repeat="coupon in vm.coupons">
+            <td><code class="adm-code">{{coupon.code}}</code></td>
+            <td>{{coupon.discount_type == 'percentage' ? 'Percentual' : 'Valor fixo'}}</td>
+            <td>
+              <strong ng-if="coupon.discount_type=='percentage'">{{coupon.value}}%</strong>
+              <strong ng-if="coupon.discount_type!='percentage'">R$ {{(coupon.value || 0) | number:2}}</strong>
+            </td>
+            <td>{{coupon.min_order_value ? ('R$ ' + (coupon.min_order_value | number:2)) : '—'}}</td>
+            <td>{{coupon.uses_count || 0}} / {{coupon.max_uses || '∞'}}</td>
+            <td>{{coupon.valid_until ? (coupon.valid_until | date:'dd/MM/yyyy') : '—'}}</td>
+            <td>
+              <label class="adm-toggle" title="Ativar/desativar">
+                <input type="checkbox" ng-model="coupon.is_active" ng-change="vm.toggleStatus(coupon)" />
+                <span class="adm-toggle-slider"></span>
+              </label>
+            </td>
+            <td>
+              <div style="display:flex;gap:6px">
+                <button class="adm-btn adm-btn-ghost adm-btn-sm" ng-click="vm.openEdit(coupon)" title="Editar">
+                  <i class="bi bi-pencil"></i>
+                </button>
+                <button class="adm-btn adm-btn-danger adm-btn-sm" ng-click="vm.deleteCoupon(coupon)" title="Excluir">
+                  <i class="bi bi-trash"></i>
+                </button>
+              </div>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+
+  <div class="adm-pagination" ng-if="vm.totalPages > 1">
+    <button class="adm-pagination-btn" ng-click="vm.prevPage()" ng-disabled="vm.page<=1">
+      <i class="bi bi-chevron-left"></i>
+    </button>
+    <span class="adm-pagination-info">{{vm.page}} / {{vm.totalPages}}</span>
+    <button class="adm-pagination-btn" ng-click="vm.nextPage()" ng-disabled="vm.page>=vm.totalPages">
+      <i class="bi bi-chevron-right"></i>
+    </button>
+  </div>
+</div>
+
+<!-- Modal -->
+<div class="adm-overlay" ng-if="vm.modal" ng-click="vm.closeModal()">
+  <div class="adm-modal" ng-click="$event.stopPropagation()">
+    <div class="adm-modal-header">
+      <h3 class="adm-modal-title">{{vm.editMode ? 'Editar cupom' : 'Novo cupom'}}</h3>
+      <button class="adm-modal-close" ng-click="vm.closeModal()"><i class="bi bi-x-lg"></i></button>
+    </div>
+    <div class="adm-modal-body">
+      <form ng-submit="vm.save()" novalidate>
+        <div class="adm-form-row">
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Código *</label>
+            <input class="adm-input" type="text" ng-model="vm.form.code" required
+                   placeholder="DESCONTO10" style="text-transform:uppercase"
+                   ng-change="vm.form.code = vm.form.code.toUpperCase()" />
+          </div>
+          <div class="adm-form-group" style="width:180px">
+            <label class="adm-label">Tipo de desconto *</label>
+            <select class="adm-select" ng-model="vm.form.discount_type" required>
+              <option ng-repeat="t in vm.discountTypes" value="{{t.value}}">{{t.label}}</option>
+            </select>
+          </div>
+        </div>
+        <div class="adm-form-row">
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Valor * {{vm.form.discount_type=='percentage' ? '(%)' : '(R$)'}}</label>
+            <input class="adm-input" type="number" step="0.01" min="0" ng-model="vm.form.value" required placeholder="0" />
+          </div>
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Pedido mínimo (R$)</label>
+            <input class="adm-input" type="number" step="0.01" min="0" ng-model="vm.form.min_order_value" placeholder="0,00" />
+          </div>
+        </div>
+        <div class="adm-form-row">
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Máx. de usos</label>
+            <input class="adm-input" type="number" min="1" ng-model="vm.form.max_uses" placeholder="Ilimitado" />
+          </div>
+          <div class="adm-form-group adm-form-group--grow">
+            <label class="adm-label">Válido até</label>
+            <input class="adm-input" type="date" ng-model="vm.form.valid_until" />
+          </div>
+        </div>
+        <div class="adm-form-group">
+          <label class="adm-label">Ativo</label>
+          <label class="adm-toggle" style="margin-top:8px">
+            <input type="checkbox" ng-model="vm.form.is_active" />
+            <span class="adm-toggle-slider"></span>
+          </label>
+        </div>
+        <div class="adm-modal-footer">
+          <button type="button" class="adm-btn adm-btn-ghost" ng-click="vm.closeModal()">Cancelar</button>
+          <button type="submit" class="adm-btn adm-btn-primary" ng-disabled="vm.saving">
+            <span ng-if="!vm.saving">{{vm.editMode ? 'Salvar' : 'Criar'}}</span>
+            <span ng-if="vm.saving"><i class="bi bi-arrow-repeat adm-spin"></i></span>
+          </button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
