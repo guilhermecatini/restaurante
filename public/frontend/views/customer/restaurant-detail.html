@@ -27,6 +27,7 @@
         <div class="accordion-body">
           <div class="d-grid gap-3">
             <product-card ng-repeat="product in category.products track by product.id" product="product" on-customize="vm.openCustomizer(product)"></product-card>
+            <product-card ng-repeat="combo in category.combos track by combo.id" product="combo" on-customize="vm.openCustomizer(combo)"></product-card>
           </div>
         </div>
       </div>
@@ -56,8 +57,7 @@
             type="checkbox"
             id="addon_{{addon.id}}"
             ng-checked="vm.modal.selectedAddons[addon.id]"
-            ng-click="vm.toggleAddon(addon)"
-          />
+            ng-click="vm.toggleAddon(addon)" />
           <label class="form-check-label" for="addon_{{addon.id}}">
             {{addon.name}} (+{{addon.price_delta | moneyBr}})
           </label>
@@ -72,8 +72,7 @@
       <quantity-stepper
         value="vm.modal.quantity"
         on-increase="vm.modal.quantity = vm.modal.quantity + 1"
-        on-decrease="vm.modal.quantity = vm.modal.quantity > 1 ? vm.modal.quantity - 1 : 1"
-      ></quantity-stepper>
+        on-decrease="vm.modal.quantity = vm.modal.quantity > 1 ? vm.modal.quantity - 1 : 1"></quantity-stepper>
       <button class="btn btn-primary" ng-click="vm.addToCart()">Adicionar</button>
     </div>
   </div>

@@ -7,13 +7,12 @@
             ng-if="vm.tenant().restaurant && vm.tenant().restaurant.logo_url"
             ng-src="{{ vm.tenant().restaurant.logo_url }}"
             alt="Logo da loja"
-            class="header-logo"
-          />
-          <span>{{ (vm.tenant().restaurant && vm.tenant().restaurant.trade_name) || 'Loja' }}</span>
+            class="header-logo" />
+          <span>{{ (vm.tenant().restaurant && (vm.tenant().restaurant.tradeName || vm.tenant().restaurant.trade_name)) || 'Loja' }}</span>
         </button>
-        <div class="tenant-badge" ng-if="vm.tenant().key">
+        <div class="tenant-badge" ng-if="vm.tenantBadgeLabel()">
           <i class="bi bi-building"></i>
-          <span>{{ vm.tenant().key }}</span>
+          <span>{{ vm.tenantBadgeLabel() }}</span>
         </div>
         <button class="btn btn-link text-dark p-0" ui-sref="app.cart" aria-label="Carrinho">
           <i class="bi bi-bag fs-4"></i>

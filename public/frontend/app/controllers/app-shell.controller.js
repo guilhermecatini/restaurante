@@ -12,6 +12,7 @@
     vm.cartCount = CartService.getItemsCount;
     vm.isLoading = LoadingService.isLoading;
     vm.tenant = TenantService.getContext;
+    vm.tenantBadgeLabel = tenantBadgeLabel;
 
     vm.goToStore = function () {
       $state.go('app.storefront');
@@ -24,5 +25,16 @@
     vm.logout = function () {
       AuthService.logout();
     };
+
+    function tenantBadgeLabel() {
+      var ctx = TenantService.getContext() || {};
+      var restaurant = ctx.restaurant || {};
+
+      if (restaurant.tradeName) return restaurant.tradeName;
+      if (restaurant.trade_name) return restaurant.trade_name;
+      if (restaurant.subdomain) return '@' + restaurant.subdomain;
+      if (ctx.key) return '@' + ctx.key;
+      return '';
+    }
   }
 })();

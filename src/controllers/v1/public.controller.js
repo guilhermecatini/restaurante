@@ -325,25 +325,34 @@ async function getRestaurantMenu(req, res, next) {
 
     const addonsByGroup = addonGroups.map((group) => ({
       ...group,
-      items: addons.filter((a) => a.addon_group_id === group.id),
+      items: addons.filter((a) => a.addonGroupId === group.id),
     }));
 
     const productsWithAddons = products.map((product) => {
       const groupIds = productAddonLinks
-        .filter((l) => l.product_id === product.id)
-        .map((l) => l.addon_group_id);
+        .filter((l) => l.productId === product.id)
+        .map((l) => l.addonGroupId);
       return {
         ...product,
+        base_price: product.basePrice,
         addon_groups: addonsByGroup.filter((g) => groupIds.includes(g.id)),
       };
     });
 
-    const menu = categories.map((category) => ({
-      ...category,
-      products: productsWithAddons.filter((p) => p.category_id === category.id),
+    const combosNormalized = combos.map((combo) => ({
+      ...combo,
+      base_price: combo.comboPrice,
+      combo_price: combo.comboPrice,
+      type: 'combo',
     }));
 
-    return ok(res, { data: { categories: menu, combos } });
+    const menu = categories.map((category) => ({
+      ...category,
+      products: productsWithAddons.filter((p) => String(p.categoryId) === String(category.id)),
+      combos: combosNormalized.filter((c) => String(c.categoryId) === String(category.id)),
+    }));
+
+    return ok(res, { data: { categories: menu } });
   } catch (err) {
     return next(err);
   }
