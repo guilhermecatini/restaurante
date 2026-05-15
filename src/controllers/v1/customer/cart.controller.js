@@ -56,22 +56,22 @@ async function getCart(req, res, next) {
     const itemIds = items.map((i) => i.id);
     const addons = itemIds.length
       ? await db('cart_item_addons as cia')
-          .join('addons as a', 'a.id', 'cia.addon_id')
-          .whereIn('cia.cart_item_id', itemIds)
-          .whereNull('cia.deleted_at')
-          .select('cia.cart_item_id', 'cia.quantity', 'cia.unit_price', 'a.name')
+        .join('addons as a', 'a.id', 'cia.addon_id')
+        .whereIn('cia.cart_item_id', itemIds)
+        .whereNull('cia.deleted_at')
+        .select('cia.cart_item_id', 'cia.quantity', 'cia.unit_price', 'a.name')
       : [];
 
     const itemsWithAddons = items.map((item) => ({
       ...item,
-      addons: addons.filter((a) => a.cart_item_id === item.id),
+      addons: addons.filter((a) => (a.cartItemId || a.cart_item_id) === item.id),
     }));
 
     const total = itemsWithAddons.reduce(
       (sum, item) =>
         sum +
-        item.unit_price * item.quantity +
-        item.addons.reduce((s, a) => s + a.unit_price * a.quantity, 0),
+        Number(item.unitPrice || item.unit_price || 0) * Number(item.quantity || 1) +
+        item.addons.reduce((s, a) => s + Number(a.unitPrice || a.unit_price || 0) * Number(a.quantity || 1), 0),
       0
     );
 
@@ -93,11 +93,15 @@ async function addItem(req, res, next) {
     if (product_id) {
       const product = await db('products').where({ id: product_id, restaurant_id, is_active: true }).whereNull('deleted_at').first();
       if (!product) throw new NotFoundError('Produto não encontrado.');
-      unitPrice = parseFloat(product.base_price);
+      unitPrice = Number(product.basePrice ?? product.base_price ?? 0);
     } else if (combo_id) {
       const combo = await db('combos').where({ id: combo_id, restaurant_id, is_active: true }).whereNull('deleted_at').first();
       if (!combo) throw new NotFoundError('Combo não encontrado.');
-      unitPrice = parseFloat(combo.combo_price);
+      unitPrice = Number(combo.comboPrice ?? combo.combo_price ?? 0);
+    }
+
+    if (!Number.isFinite(unitPrice)) {
+      throw new BadRequestError('Preço inválido para o item selecionado.');
     }
 
     const cart = await getOrCreateActiveCart(req.user.id, restaurant_id);
@@ -116,7 +120,7 @@ async function addItem(req, res, next) {
         addons.map(async (a) => {
           const addon = await db('addons').where({ id: a.addon_id, is_active: true }).whereNull('deleted_at').first();
           return addon
-            ? { cart_item_id: cartItemId, addon_id: a.addon_id, quantity: a.quantity, unit_price: parseFloat(addon.price_delta) }
+            ? { cart_item_id: cartItemId, addon_id: a.addon_id, quantity: a.quantity, unit_price: Number(addon.priceDelta ?? addon.price_delta ?? 0) }
             : null;
         })
       );

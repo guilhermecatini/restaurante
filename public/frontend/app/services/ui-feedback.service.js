@@ -5,16 +5,30 @@
 
   UiFeedbackService.$inject = ['$window'];
   function UiFeedbackService($window) {
+    function show(icon, title, message) {
+      if ($window.Swal && typeof $window.Swal.fire === 'function') {
+        return $window.Swal.fire({
+          icon: icon,
+          title: title,
+          text: message,
+          confirmButtonText: 'OK',
+        });
+      }
+
+      $window.alert(message);
+      return null;
+    }
+
     this.success = function (message) {
-      $window.alert(message || 'Operacao realizada com sucesso.');
+      return show('success', 'Sucesso', message || 'Operacao realizada com sucesso.');
     };
 
     this.error = function (message) {
-      $window.alert(message || 'Ocorreu um erro.');
+      return show('error', 'Erro', message || 'Ocorreu um erro.');
     };
 
     this.info = function (message) {
-      $window.alert(message || 'Informacao.');
+      return show('info', 'Informacao', message || 'Informacao.');
     };
   }
 })();

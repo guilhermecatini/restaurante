@@ -1,0 +1,65 @@
+<section class="mt-3">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h1 class="section-title mb-0">Meus pedidos</h1>
+        <button class="btn btn-outline-secondary btn-sm" ng-click="vm.refresh()">
+            <i class="bi bi-arrow-clockwise"></i> Atualizar
+        </button>
+    </div>
+
+    <div class="card-soft p-3" ng-if="vm.loading">
+        <skeleton-card class="d-block mb-2"></skeleton-card>
+        <skeleton-card class="d-block mb-2"></skeleton-card>
+    </div>
+
+    <div class="card-soft p-3" ng-if="!vm.loading && !vm.orders.length">
+        <p class="mb-1">Voce ainda nao fez pedidos.</p>
+        <small class="text-muted">Quando finalizar um pedido, ele aparecera aqui para acompanhamento.</small>
+    </div>
+
+    <div class="d-grid gap-2" ng-if="!vm.loading && vm.orders.length">
+        <article class="card-soft p-3" ng-repeat="order in vm.orders track by order.id">
+            <div class="d-flex justify-content-between align-items-start gap-2">
+                <div>
+                    <p class="mb-1 fw-semibold">{{order.orderNumber || order.order_number}}</p>
+                    <small class="text-muted d-block">{{order.restaurantName || order.restaurant_name}}</small>
+                    <small class="text-muted d-block">{{order.placedAt || order.placed_at | date:'dd/MM/yyyy HH:mm'}}</small>
+                </div>
+                <div class="text-end">
+                    <span class="badge" ng-class="vm.statusClass(order.status)">{{vm.statusLabel(order.status)}}</span>
+                    <small class="text-muted d-block mt-1">{{vm.statusHint(order.status)}}</small>
+                    <strong class="d-block mt-2">{{order.totalAmount || order.total_amount | moneyBr}}</strong>
+                </div>
+            </div>
+
+            <div class="d-flex gap-2 mt-3">
+                <button class="btn btn-sm btn-outline-primary" ng-click="vm.openDetails(order)">Acompanhar</button>
+                <button class="btn btn-sm btn-outline-danger" ng-if="vm.canCancel(order)" ng-click="vm.cancelOrder(order)">Cancelar</button>
+            </div>
+        </article>
+    </div>
+
+    <div class="card-soft p-3 mt-3" ng-if="vm.selectedOrder">
+        <div class="d-flex justify-content-between align-items-center">
+            <h2 class="h6 mb-0">Detalhes do pedido {{vm.selectedOrder.orderNumber || vm.selectedOrder.order_number}}</h2>
+            <button class="btn btn-sm btn-outline-secondary" ng-click="vm.refreshTrack()">Atualizar status</button>
+        </div>
+
+        <div class="mt-2">
+            <span class="badge" ng-class="vm.statusClass((vm.selectedTrack && vm.selectedTrack.status) || vm.selectedOrder.status)">
+                {{vm.statusLabel((vm.selectedTrack && vm.selectedTrack.status) || vm.selectedOrder.status)}}
+            </span>
+            <small class="text-muted d-block mt-1">
+                {{vm.statusHint((vm.selectedTrack && vm.selectedTrack.status) || vm.selectedOrder.status)}}
+            </small>
+        </div>
+
+        <ul class="list-group list-group-flush mt-3" ng-if="vm.selectedOrder.items && vm.selectedOrder.items.length">
+            <li class="list-group-item px-0" ng-repeat="item in vm.selectedOrder.items track by item.id">
+                <div class="d-flex justify-content-between">
+                    <span>{{item.itemNameSnapshot || item.item_name_snapshot}} x{{item.quantity}}</span>
+                    <strong>{{item.totalPrice || item.total_price | moneyBr}}</strong>
+                </div>
+            </li>
+        </ul>
+    </div>
+</section>

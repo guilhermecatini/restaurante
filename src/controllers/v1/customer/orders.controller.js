@@ -54,7 +54,7 @@ async function place(req, res, next) {
     if (!cartItems.length) throw new BadRequestError('Carrinho está vazio.');
 
     // Subtotal
-    let subtotal = cartItems.reduce((s, i) => s + parseFloat(i.unit_price) * i.quantity, 0);
+    let subtotal = cartItems.reduce((s, i) => s + Number(i.unitPrice || i.unit_price || 0) * Number(i.quantity || 1), 0);
 
     const cartItemIds = cartItems.map((i) => i.id);
     const cartAddons = await db('cart_item_addons')
@@ -62,7 +62,7 @@ async function place(req, res, next) {
       .whereNull('deleted_at')
       .select('cart_item_id', 'addon_id', 'quantity', 'unit_price');
 
-    const addonsTotal = cartAddons.reduce((s, a) => s + parseFloat(a.unit_price) * a.quantity, 0);
+    const addonsTotal = cartAddons.reduce((s, a) => s + Number(a.unitPrice || a.unit_price || 0) * Number(a.quantity || 1), 0);
 
     let discountAmount = 0;
     let couponId = null;
@@ -79,25 +79,32 @@ async function place(req, res, next) {
 
       if (coupon) {
         couponId = coupon.id;
-        if (coupon.discount_type === 'percentage') {
+        if ((coupon.discountType || coupon.discount_type) === 'percentage') {
           discountAmount = Math.min(
-            (subtotal + addonsTotal) * (coupon.discount_value / 100),
-            coupon.max_discount_amount || Infinity
+            (subtotal + addonsTotal) * (Number(coupon.discountValue || coupon.discount_value || 0) / 100),
+            Number(coupon.maxDiscountAmount || coupon.max_discount_amount || Infinity)
           );
-        } else if (coupon.discount_type === 'fixed_amount') {
-          discountAmount = Math.min(coupon.discount_value, subtotal + addonsTotal);
+        } else if ((coupon.discountType || coupon.discount_type) === 'fixed_amount') {
+          discountAmount = Math.min(Number(coupon.discountValue || coupon.discount_value || 0), subtotal + addonsTotal);
         }
       }
     }
 
-    const restaurant = await db('restaurants').where({ id: cart.restaurant_id }).first();
-    const deliveryFee = order_type === 'delivery' ? parseFloat(restaurant.base_delivery_fee) : 0;
+    const restaurantId = Number(cart.restaurantId || cart.restaurant_id);
+    if (!restaurantId) throw new BadRequestError('Carrinho sem restaurante associado.');
+
+    const restaurant = await db('restaurants').where({ id: restaurantId }).first();
+    if (!restaurant) throw new NotFoundError('Restaurante não encontrado para o carrinho.');
+
+    const deliveryFee = order_type === 'delivery'
+      ? Number(restaurant.baseDeliveryFee || restaurant.base_delivery_fee || 0)
+      : 0;
     const totalAmount = Math.max(0, subtotal + addonsTotal + deliveryFee - discountAmount);
 
     const [orderId] = await db('orders').insert({
       order_number: generateOrderNumber(),
       customer_user_id: req.user.id,
-      restaurant_id: cart.restaurant_id,
+      restaurant_id: restaurantId,
       delivery_address_id: delivery_address_id || null,
       coupon_id: couponId,
       cart_id,
@@ -116,33 +123,39 @@ async function place(req, res, next) {
 
     // Insere order_items
     for (const item of cartItems) {
-      const name = item.product_id
-        ? (await db('products').where({ id: item.product_id }).select('name').first())?.name
-        : (await db('combos').where({ id: item.combo_id }).select('name').first())?.name;
+      const productId = item.productId || item.product_id;
+      const comboId = item.comboId || item.combo_id;
+      const itemUnitPrice = Number(item.unitPrice || item.unit_price || 0);
+
+      const name = productId
+        ? (await db('products').where({ id: productId }).select('name').first())?.name
+        : (await db('combos').where({ id: comboId }).select('name').first())?.name;
 
       const [orderItemId] = await db('order_items').insert({
         order_id: orderId,
-        product_id: item.product_id || null,
-        combo_id: item.combo_id || null,
+        product_id: productId || null,
+        combo_id: comboId || null,
         item_name_snapshot: name || 'Item',
         quantity: item.quantity,
-        unit_price: item.unit_price,
-        total_price: (parseFloat(item.unit_price) * item.quantity).toFixed(2),
+        unit_price: itemUnitPrice,
+        total_price: (itemUnitPrice * Number(item.quantity || 1)).toFixed(2),
         customer_notes: item.customer_notes || null,
       });
 
-      const itemAddons = cartAddons.filter((a) => a.cart_item_id === item.id);
+      const itemAddons = cartAddons.filter((a) => (a.cartItemId || a.cart_item_id) === item.id);
       if (itemAddons.length) {
         const addonRows = await Promise.all(
           itemAddons.map(async (a) => {
-            const addon = await db('addons').where({ id: a.addon_id }).select('name').first();
+            const addonId = a.addonId || a.addon_id;
+            const addonUnitPrice = Number(a.unitPrice || a.unit_price || 0);
+            const addon = await db('addons').where({ id: addonId }).select('name').first();
             return {
               order_item_id: orderItemId,
-              addon_id: a.addon_id,
+              addon_id: addonId,
               addon_name_snapshot: addon?.name || 'Adicional',
               quantity: a.quantity,
-              unit_price: a.unit_price,
-              total_price: (parseFloat(a.unit_price) * a.quantity).toFixed(2),
+              unit_price: addonUnitPrice,
+              total_price: (addonUnitPrice * Number(a.quantity || 1)).toFixed(2),
             };
           })
         );

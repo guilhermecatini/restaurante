@@ -44,6 +44,17 @@
           }],
         },
       })
+      .state('app.orders', {
+        url: '/orders',
+        templateUrl: 'views/customer/orders.html',
+        controller: 'OrdersController',
+        controllerAs: 'vm',
+        resolve: {
+          auth: ['AuthService', '$transition$', function (AuthService, $transition$) {
+            return AuthService.requireAuth($transition$);
+          }],
+        },
+      })
       .state('auth', {
         abstract: true,
         templateUrl: 'app/layouts/auth-shell.html',

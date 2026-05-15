@@ -25,5 +25,23 @@
         return res.data;
       });
     };
+
+    this.get = function (orderId) {
+      return ApiService.get('/customer/orders/' + orderId).then(function (res) {
+        return res.data.data;
+      });
+    };
+
+    this.track = function (orderId) {
+      return ApiService.get('/customer/orders/' + orderId + '/track').then(function (res) {
+        return res.data.data;
+      });
+    };
+
+    this.cancel = function (orderId) {
+      return ApiService.post('/customer/orders/' + orderId + '/cancel').then(function (res) {
+        return res.data;
+      });
+    };
   }
 })();

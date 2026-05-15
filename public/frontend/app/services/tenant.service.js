@@ -5,6 +5,8 @@
 
   TenantService.$inject = ['$window', '$q', 'PublicService', 'APP_CONFIG'];
   function TenantService($window, $q, PublicService, APP_CONFIG) {
+    var TENANT_STORAGE_KEY = 'deliveryapp.tenant_key';
+
     var context = {
       key: null,
       restaurant: null,
@@ -36,6 +38,28 @@
       return sanitizeTenant(params.get('tenant'));
     }
 
+    function readStoredTenant() {
+      try {
+        if (!$window.localStorage) return '';
+        return sanitizeTenant($window.localStorage.getItem(TENANT_STORAGE_KEY));
+      } catch (_err) {
+        return '';
+      }
+    }
+
+    function persistTenant(tenantKey) {
+      var normalized = sanitizeTenant(tenantKey);
+      if (!normalized) return;
+
+      try {
+        if ($window.localStorage) {
+          $window.localStorage.setItem(TENANT_STORAGE_KEY, normalized);
+        }
+      } catch (_err) {
+        // Ignora falhas de storage (modo privado/permissoes)
+      }
+    }
+
     function hashToPalette(seed) {
       var str = seed || 'tenant';
       var hash = 0;
@@ -61,7 +85,17 @@
 
     this.getTenantKey = function () {
       if (context.key) return context.key;
-      context.key = extractFromQuery() || extractFromHostname() || APP_CONFIG.LOCAL_DEFAULT_TENANT;
+
+      var fromQuery = extractFromQuery();
+      var fromHostname = extractFromHostname();
+      var fromStorage = readStoredTenant();
+
+      context.key = fromQuery || fromHostname || fromStorage || APP_CONFIG.LOCAL_DEFAULT_TENANT;
+
+      if (fromQuery || fromHostname || context.key) {
+        persistTenant(context.key);
+      }
+
       return context.key;
     };
 
@@ -82,6 +116,7 @@
           context.key = sanitizeTenant(payload.tenant_key || tenantKey || context.key);
           context.restaurant = payload.restaurant;
           context.resolved = true;
+          persistTenant(context.key);
           applyThemeFromRestaurant(payload.restaurant);
           return context;
         })
@@ -94,6 +129,7 @@
               context.key = sanitizeTenant(fallbackPayload.tenant_key || APP_CONFIG.LOCAL_DEFAULT_TENANT);
               context.restaurant = fallbackPayload.restaurant;
               context.resolved = true;
+              persistTenant(context.key);
               applyThemeFromRestaurant(fallbackPayload.restaurant);
               return context;
             });

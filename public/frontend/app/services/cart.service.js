@@ -63,8 +63,27 @@
 
       cart.restaurant_id = Number(restaurantId);
 
+      var isCombo = product && (product.type === 'combo' || product.combo_id || product.comboId);
+      var resolvedProductId = isCombo ? null : (product.id || product.product_id || product.productId || null);
+      var resolvedComboId = isCombo ? (product.id || product.combo_id || product.comboId || null) : null;
+      var resolvedUnitPrice = Number(
+        product.base_price ||
+        product.basePrice ||
+        product.combo_price ||
+        product.comboPrice ||
+        0
+      );
+
+      if (!Number.isFinite(resolvedUnitPrice)) {
+        resolvedUnitPrice = 0;
+      }
+
       var existing = cart.items.find(function (it) {
-        return Number(it.product_id || 0) === Number(product.id || 0) && (it.customer_notes || '') === (notes || '');
+        var sameEntity = isCombo
+          ? Number(it.combo_id || 0) === Number(resolvedComboId || 0)
+          : Number(it.product_id || 0) === Number(resolvedProductId || 0);
+
+        return sameEntity && (it.customer_notes || '') === (notes || '');
       });
 
       if (existing) {
@@ -72,18 +91,18 @@
       } else {
         cart.items.push({
           local_id: Date.now() + '-' + Math.random().toString(16).slice(2),
-          product_id: product.id || null,
-          combo_id: product.combo_id || null,
+          product_id: resolvedProductId,
+          combo_id: resolvedComboId,
           product_name: product.name,
           quantity: Number(quantity || 1),
-          unit_price: Number(product.base_price || product.combo_price || 0),
+          unit_price: resolvedUnitPrice,
           customer_notes: notes || null,
           addons: (addons || []).map(function (addon) {
             return {
-              addon_id: addon.id,
+              addon_id: addon.id || addon.addon_id || addon.addonId,
               name: addon.name,
               quantity: Number(addon.quantity || 1),
-              price_delta: Number(addon.price_delta || 0),
+              price_delta: Number(addon.price_delta || addon.priceDelta || 0),
             };
           }),
         });

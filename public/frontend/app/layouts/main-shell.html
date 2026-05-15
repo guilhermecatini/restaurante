@@ -14,6 +14,14 @@
           <i class="bi bi-building"></i>
           <span>{{ vm.tenantBadgeLabel() }}</span>
         </div>
+        <button
+          ng-if="vm.isAuthenticated()"
+          class="btn btn-link text-dark p-0 d-flex align-items-center gap-1"
+          ui-sref="app.orders"
+          aria-label="Meus pedidos">
+          <i class="bi bi-receipt fs-5"></i>
+          <span class="small">Pedidos</span>
+        </button>
         <button class="btn btn-link text-dark p-0" ui-sref="app.cart" aria-label="Carrinho">
           <i class="bi bi-bag fs-4"></i>
           <span class="badge rounded-pill text-bg-danger" ng-if="vm.cartCount()">{{ vm.cartCount() }}</span>
@@ -30,6 +38,7 @@
   <nav class="mobile-nav d-md-none" aria-label="Navegacao principal">
     <a ui-sref="app.storefront" ui-sref-active="active"><i class="bi bi-house"></i><span>Loja</span></a>
     <a ui-sref="app.cart" ui-sref-active="active"><i class="bi bi-bag"></i><span>Carrinho</span></a>
+    <a ng-if="vm.isAuthenticated()" ui-sref="app.orders" ui-sref-active="active"><i class="bi bi-receipt"></i><span>Pedidos</span></a>
     <a ng-if="!vm.isAuthenticated()" ui-sref="auth.login" ui-sref-active="active"><i class="bi bi-person"></i><span>Entrar</span></a>
     <a ng-if="vm.isAuthenticated()" href="" ng-click="vm.logout()"><i class="bi bi-box-arrow-right"></i><span>Sair</span></a>
   </nav>

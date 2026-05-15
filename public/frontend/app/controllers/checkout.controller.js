@@ -37,8 +37,18 @@
 
     vm.loadAddresses = function () {
       AddressService.list().then(function (items) {
-        vm.addresses = items;
-        var defaultAddress = items.find(function (address) { return address.is_default; });
+        vm.addresses = (items || []).map(function (address) {
+          var resolvedAddressId = address.addressId || address.address_id;
+          var isDefault = Boolean(address.isDefault || address.is_default);
+          return Object.assign({}, address, {
+            address_id: resolvedAddressId,
+            addressId: resolvedAddressId,
+            is_default: isDefault,
+            isDefault: isDefault,
+          });
+        });
+
+        var defaultAddress = vm.addresses.find(function (address) { return address.is_default; });
         if (defaultAddress) vm.selectedAddressId = defaultAddress.address_id;
       });
     };
@@ -52,7 +62,7 @@
 
     vm.applyCoupon = function () {
       if (!vm.coupon) return;
-      OrderService.validateCoupon(vm.coupon, vm.cart.restaurant_id).then(function (result) {
+      OrderService.validateCoupon(vm.coupon, vm.cart.restaurant_id || vm.cart.restaurantId).then(function (result) {
         vm.couponResult = result;
         if (result && result.valid) {
           CartService.setCoupon(vm.coupon);
@@ -79,7 +89,7 @@
         .then(function (serverCart) {
           return OrderService.place({
             cart_id: serverCart.id,
-            delivery_address_id: vm.orderForm.order_type === 'delivery' ? vm.selectedAddressId : null,
+            delivery_address_id: vm.orderForm.order_type === 'delivery' ? Number(vm.selectedAddressId) : null,
             order_type: vm.orderForm.order_type,
             coupon_code: vm.cart.coupon_code || null,
             payment_method: vm.orderForm.payment_method,
